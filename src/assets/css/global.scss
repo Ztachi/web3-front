@@ -1,0 +1,184 @@
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+fieldset,
+legend,
+button,
+input,
+textarea,
+form,
+th,
+td {
+  padding: 0;
+  margin: 0;
+  vertical-align: baseline;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font: $baseFontSize Microsoft YaHei, tahoma, arial, Hiragino Sans GB, \\5b8b\4f53, sans-serif;
+}
+
+textarea,
+input {
+  font-size: $baseFontSize;
+  color: $baseFontColor;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  appearance: none;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  outline: none;
+}
+
+textarea {
+  resize: none;
+}
+
+address,
+cite,
+dfn,
+em,
+var {
+  font-style: normal;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: 'courier new', courier, monospace;
+}
+
+small {
+  font-size: 12px;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+sup {
+  vertical-align: text-top;
+}
+
+sub {
+  vertical-align: text-bottom;
+}
+
+legend {
+  color: #000;
+}
+
+fieldset,
+img {
+  border: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a {
+  color: $c3;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a:active,
+a:focus,
+a:hover {
+  text-decoration: none;
+}
+
+:focus {
+  outline: none;
+}
+
+::input-placeholder {
+  font-size: $baseFontSize;
+  font-weight: 100%;
+  letter-spacing: normal;
+  color: #b4b4b4;
+  text-align: left;
+}
+
+input:focus,
+input:hover,
+input:active {
+  margin: 0;
+  font-weight: normal;
+  outline: 0;
+}
+
+label {
+  cursor: pointer;
+}
+
+li {
+  list-style-type: none;
+}
+
+i.iconfont {
+  -webkit-text-stroke-width: 0.2px;
+}
+
+html,
+body {
+  position: relative;
+  height: 100%;
+  font-size: $baseFontSize;
+  font-weight: 400;
+  color: $baseFontColor;
+  word-break: break-word;
+  background-color: $baseBackgroundColor;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+p {
+  font-size: $baseFontSize;
+  line-height: 1.5;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+  content: normal !important;
+}

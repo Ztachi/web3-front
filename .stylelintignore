@@ -1,0 +1,5 @@
+/dist/*
+/public/*
+public/*
+**/_fn.scss
+**/_variables.scss

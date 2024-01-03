@@ -1,0 +1,46 @@
+import { defineConfig } from 'vite';
+import { resolve } from 'path';
+import { createHtmlPlugin } from 'vite-plugin-html';
+import react from '@vitejs/plugin-react';
+
+// https://vitejs.dev/config/
+export default () => {
+  const version = `v${require('./package.json').version}`;
+
+  return defineConfig({
+    plugins: [
+      react(),
+      createHtmlPlugin({
+        inject: {
+          data: {
+            version,
+          },
+        },
+        minify: true,
+      }),
+    ],
+    server: {
+      port: 7000,
+      open: true,
+      proxy: {
+        '/api': {
+          target: process.env.SERVER_URL,
+          changeOrigin: true,
+        },
+      },
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "src/assets/css/_variables.scss";',
+        },
+      },
+    },
+    resolve: {
+      //配置路径简称
+      alias: {
+        '@': resolve(__dirname, './src'),
+      },
+    },
+  });
+};
