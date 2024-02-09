@@ -21,7 +21,7 @@ const routes = [
     element: <Login />,
   },
   {
-    path: '/logout',
+    path: '/wallet',
     element: <Wallet />,
   },
 ];
