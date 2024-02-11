@@ -51,5 +51,6 @@ module.exports = defineConfig({
     'default-case': 'off',
     'import/no-named-as-default': 'off',
     'consistent-return': 'off',
+    'react/prop-types': 'off',
   },
 });
