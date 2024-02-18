@@ -1,35 +1,30 @@
-import { Card, Button } from 'antd';
+import { Card } from 'antd';
 
-import { useWeb3React } from '@web3-react/core';
-import FloatButtonList from '@/components/floatButtonList';
+import FloatButtonList from '@/components/FloatButtonList';
+
+import walletList from '@/libs/wallet/walletList';
 import {
   // getHasMetaMaskExtensionInstalled,
   tryActivateConnector,
-  tryDeactivateConnector,
+  // tryDeactivateConnector,
 } from '@/libs/wallet/connections';
-import walletList from '@/libs/wallet/walletList';
+import useCheckWalletConnection from '@/hooks/useCheckWalletConnection';
 
 const Login = () => {
-  const { chainId, account, isActive } = useWeb3React();
+  //检查登录状态
+  useCheckWalletConnection();
 
+  //连接钱包
   async function connect(connector) {
     await tryActivateConnector(connector);
   }
-  async function quit(connector) {
-    await tryDeactivateConnector(connector);
-  }
+  // function quit(connector) {
+  //   tryDeactivateConnector(connector);
+  // }
 
   return (
     <>
       <div className="h-screen flex justify-center items-center">
-        account address:
-        {account}
-        <br />
-        chainId:
-        {chainId}
-        <br />
-        isActive:
-        {isActive}
         {walletList.map(({ name, icon, connector }) => (
           <Card
             key={name}
@@ -40,17 +35,6 @@ const Login = () => {
             }}
             cover={
               <div className="text-center py-10">
-                {isActive && (
-                  <Button
-                    type="primary"
-                    onClick={(e) => {
-                      quit(connector);
-                      e.stopPropagation();
-                    }}
-                  >
-                    Quit
-                  </Button>
-                )}
                 <img className="w-1/2" src={icon} alt={name} />
               </div>
             }

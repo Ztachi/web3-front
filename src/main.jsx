@@ -19,8 +19,8 @@ if (window.ethereum) {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Web3ContextProvider>
-      <Provider store={store}>{router}</Provider>
-    </Web3ContextProvider>
+    <Provider store={store}>
+      <Web3ContextProvider>{router}</Web3ContextProvider>
+    </Provider>
   </React.StrictMode>
 );

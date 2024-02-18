@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import react from '@vitejs/plugin-react';
+import checker from 'vite-plugin-checker';
 
 // https://vitejs.dev/config/
 export default () => {
@@ -10,6 +11,9 @@ export default () => {
   return defineConfig({
     plugins: [
       react(),
+      checker({
+        lintCommand: 'eslint "./src/**/*.{js,jsx}"',
+      }),
       createHtmlPlugin({
         inject: {
           data: {

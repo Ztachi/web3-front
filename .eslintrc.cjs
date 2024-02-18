@@ -52,5 +52,6 @@ module.exports = defineConfig({
     'import/no-named-as-default': 'off',
     'consistent-return': 'off',
     'react/prop-types': 'off',
+    'no-lonely-if': 'off',
   },
 });

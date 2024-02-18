@@ -26,7 +26,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.0.4",
-    "react-router-dom": "^6.21.1"
+    "react-router-dom": "^6.21.1",
+    "web3": "^4.5.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
@@ -64,6 +65,7 @@
     "stylelint-order": "^5.0.0",
     "tailwindcss": "^3.4.0",
     "vite": "^5.0.8",
+    "vite-plugin-checker": "^0.6.4",
     "vite-plugin-html": "^3.2.1"
   }
 }
