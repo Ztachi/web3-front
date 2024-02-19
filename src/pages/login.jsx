@@ -1,5 +1,6 @@
 import { Card } from 'antd';
 
+import useCheckWalletConnection from '@/hooks/useCheckWalletConnection';
 import FloatButtonList from '@/components/FloatButtonList';
 
 import walletList from '@/libs/wallet/walletList';
@@ -8,7 +9,6 @@ import {
   tryActivateConnector,
   // tryDeactivateConnector,
 } from '@/libs/wallet/connections';
-import useCheckWalletConnection from '@/hooks/useCheckWalletConnection';
 
 const Login = () => {
   //检查登录状态
