@@ -53,5 +53,11 @@ module.exports = defineConfig({
     'consistent-return': 'off',
     'react/prop-types': 'off',
     'no-lonely-if': 'off',
+    'function-paren-newline': 'off',
+    'operator-linebreak': 'off',
+    'react/jsx-wrap-multilines': 'off',
+    'react/jsx-one-expression-per-line': 'off',
+    'no-plusplus': 'off',
+    'no-return-assign': 'off',
   },
 });

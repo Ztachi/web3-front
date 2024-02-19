@@ -1,3 +1,10 @@
+/*
+ * @Author: ztachi(legendryztachi@gmail.com)
+ * @Date: 2024-01-02 21:26:26
+ * @LastEditors: ztachi(legendryztachi@gmail.com)
+ * @LastEditTime: 2024-02-19 15:58:52
+ * @Description:
+ */
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import { createHtmlPlugin } from 'vite-plugin-html';
@@ -12,7 +19,9 @@ export default () => {
     plugins: [
       react(),
       checker({
-        lintCommand: 'eslint "./src/**/*.{js,jsx}"',
+        eslint: {
+          lintCommand: 'eslint "./src/**/*.{js,jsx}"',
+        },
       }),
       createHtmlPlugin({
         inject: {

@@ -6,9 +6,8 @@ import { Web3Context } from '@/libs/wallet/components/Web3Provider';
 const Header = () => {
   const web3 = useContext(Web3Context);
   const connector = useWeb3React();
-  const { chainId, account, provider } = connector;
+  const { chainId, account } = connector;
   const [balance, setBalance] = useState(null);
-  console.log(provider);
 
   useEffect(() => {
     web3.eth.getBalance(account).then((b) => {

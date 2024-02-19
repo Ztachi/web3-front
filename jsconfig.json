@@ -6,7 +6,9 @@
     },
     "target": "ES6",
     "module": "commonjs",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
   "exclude": ["node_modules"]
 }
