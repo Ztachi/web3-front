@@ -59,5 +59,6 @@ module.exports = defineConfig({
     'react/jsx-one-expression-per-line': 'off',
     'no-plusplus': 'off',
     'no-return-assign': 'off',
+    'import/order': 'off',
   },
 });

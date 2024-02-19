@@ -10,7 +10,7 @@ import { useWeb3React } from '@web3-react/core';
 
 import { Skeleton } from 'antd';
 
-// import FloatButtonList from '@/components/FloatButtonList';
+import FloatButtonList from '@/components/FloatButtonList';
 import Web3Provider from '@/libs/wallet/components/Web3Provider';
 import useCheckWalletConnection from '@/hooks/useCheckWalletConnection';
 import Header from './layout/Header';
@@ -36,6 +36,7 @@ const Wallet = () => {
           <Header />
         </Web3Provider>
       )}
+      <FloatButtonList />
     </div>
   );
 };
