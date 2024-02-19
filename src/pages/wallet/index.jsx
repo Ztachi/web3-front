@@ -30,7 +30,7 @@ const Wallet = () => {
     return <Skeleton active />;
   }
   return (
-    <div className="text-primary">
+    <div className="text-primary container">
       {account && (
         <Web3Provider provider={provider}>
           <Header />
