@@ -1,6 +1,6 @@
 import { Card } from 'antd';
 
-import FloatButtonList from '@/components/FloatButtonList';
+import FloatButtonList from '@/components/floatButtonList';
 
 import walletList from '@/libs/wallet/walletList';
 import {
