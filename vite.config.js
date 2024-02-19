@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-01-02 21:26:26
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-19 15:58:52
+ * @LastEditTime: 2024-02-19 22:40:43
  * @Description:
  */
 import { defineConfig } from 'vite';
@@ -10,6 +10,7 @@ import { resolve } from 'path';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import react from '@vitejs/plugin-react';
 import checker from 'vite-plugin-checker';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 // https://vitejs.dev/config/
 export default () => {
@@ -17,6 +18,7 @@ export default () => {
 
   return defineConfig({
     plugins: [
+      nodePolyfills(),
       react(),
       checker({
         eslint: {
