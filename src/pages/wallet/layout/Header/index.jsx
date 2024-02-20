@@ -1,11 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { List, Card, Tag, Typography, theme } from 'antd';
+import { List, Card, Typography, Spin } from 'antd';
 
 import { Web3Context } from '@/libs/wallet/components/Web3Provider';
 
 const { Paragraph } = Typography;
-const { useToken } = theme;
 
 /**
  * @description: 基础信息木块
@@ -13,7 +12,14 @@ const { useToken } = theme;
  * @return {ReactNode}
  */
 const HeaderBaseInfo = ({ data }) => {
-  const { token } = useToken();
+  /**
+   * @description: 数据项的值，通用
+   * @param {String} value 值
+   * @return {ReactNode}
+   */
+  function getValueTextDom(value) {
+    return <span className="text-lg font-bold color-primary">{value}</span>;
+  }
   /**
    * @description: 根据不同类型数据展示不同dom
    * @param {String} name 数据名
@@ -25,13 +31,13 @@ const HeaderBaseInfo = ({ data }) => {
       case 'account':
         return (
           <Paragraph className="!mb-0" copyable>
-            <span className="text-lg font-bold color-primary">{value}</span>
+            {getValueTextDom(value)}
           </Paragraph>
         );
       case 'chainId':
-        return <Tag color={token.colorPrimary}>{value}</Tag>;
+        return getValueTextDom(value);
       case 'balance':
-        return <span className="text-lg font-bold color-primary">{value}</span>;
+        return value ? getValueTextDom(value) : <Spin />;
     }
   }
 
