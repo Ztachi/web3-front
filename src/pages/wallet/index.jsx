@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-01-03 00:00:54
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-20 17:43:57
+ * @LastEditTime: 2024-02-20 21:27:40
  * @Description:
  */
 // import { useState, useEffect } from 'react';
@@ -30,7 +30,7 @@ const Wallet = () => {
     return <Skeleton active />;
   }
   return (
-    <div className="text-primary container">
+    <div className="text-primary container rounded-lg">
       {account && (
         <Web3Provider provider={provider}>
           <Header />

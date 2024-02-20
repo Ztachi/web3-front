@@ -11,13 +11,16 @@ img {
   margin: 0 auto;
 }
 
+.color-primary {
+  color: $primaryColor;
+}
+
 .container {
   position: relative;
   top: 5vh;
   z-index: 1;
   height: 90vh;
+  padding: 10px;
   margin: 0 auto;
-  background-color: #fff;
-  border-radius: 10px;
-  opacity: 0.8;
+  background-color: hsl(0deg 0% 100% / 60%);
 }
