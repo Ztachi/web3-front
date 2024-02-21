@@ -48,7 +48,7 @@ const BasicInfo = ({ account, chainId }) => {
     switch (label) {
       case 'Account':
         return (
-          <Paragraph className="!mb-0" copyable>
+          <Paragraph className="!mb-0" copyable={{ text: value }}>
             {getValueTextDom(value)}
           </Paragraph>
         );
