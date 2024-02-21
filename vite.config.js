@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-01-02 21:26:26
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-19 22:40:43
+ * @LastEditTime: 2024-02-21 22:37:09
  * @Description:
  */
 import { defineConfig } from 'vite';
@@ -11,6 +11,7 @@ import { createHtmlPlugin } from 'vite-plugin-html';
 import react from '@vitejs/plugin-react';
 import checker from 'vite-plugin-checker';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default () => {
@@ -18,6 +19,7 @@ export default () => {
 
   return defineConfig({
     plugins: [
+      svgr(),
       nodePolyfills(),
       react(),
       checker({

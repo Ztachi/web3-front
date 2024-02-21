@@ -4,6 +4,7 @@ import HomePage from '@/pages/homepage';
 import Demo from '@/pages/demo';
 import Login from '@/pages/login';
 import Wallet from '@/pages/wallet';
+import WalletIndex from '@/pages/wallet/children/index';
 import ErrorElement from '@/pages/error';
 
 const routes = [
@@ -23,6 +24,7 @@ const routes = [
   {
     path: '/wallet',
     element: <Wallet />,
+    children: [{ path: '', element: <WalletIndex /> }],
   },
 ];
 

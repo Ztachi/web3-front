@@ -2,7 +2,7 @@
  * @Author: 詹真琦(legendryztachi@gmail.com)
  * @Date: 2021-01-26 18:09:35
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-21 17:38:08
+ * @LastEditTime: 2024-02-21 21:48:54
  * @FilePath: \code\fulltime\data-broadcast-front-desk\src\api\modules\common.api.js
  * @Description: 通用API
  */
@@ -39,7 +39,7 @@ const APIS = ({
   },
   COMMON_GET_CHAIN_LIST() {
     return service.request({
-      url: 'https://chainid.network/chains_mini.json',
+      url: import.meta.env.VITE_CHAINS_URL,
     });
   },
 });

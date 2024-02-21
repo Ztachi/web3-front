@@ -1,129 +1,42 @@
-import { useState, useEffect, useContext } from 'react';
-import { useWeb3React } from '@web3-react/core';
-import { Descriptions, Typography, Spin } from 'antd';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { Menu } from 'antd';
 
-import { getChainById } from '@/store/modules/chain';
-import { Web3Context } from '@/libs/wallet/components/Web3Provider';
+import { HomeFilled } from '@ant-design/icons';
+import { BlockChainIcon, SmartContractIcon } from '@/icons';
 
-import { ETHEREUM_MAINNET_CHAIN_ID, ETHEREUM_UNITS } from '@/const';
-
-const { Paragraph } = Typography;
-
-/**
- * @description: 基础信息模块
- * @param {String} account 账号
- * @param {String} chainId 链号
- * @return {ReactNode}
- */
-const HeaderBasicInfo = ({ account, chainId }) => {
-  const web3 = useContext(Web3Context);
-  //当前链信息
-  const currentChainInformation = useSelector((state) => getChainById(state, chainId));
-  //账户余额
-  const [balance, setBalance] = useState('fetching...');
-
-  useEffect(() => {
-    //获取余额
-    web3.eth.getBalance(account).then((b) => {
-      const a = web3.utils.fromWei(b, 'ether');
-      setBalance(a === '0.' ? 0 : a);
-    });
-  }, [web3, account, setBalance, chainId]);
-
-  /**
-   * @description: 数据项的值，通用
-   * @param {String} value 值
-   * @return {ReactNode}
-   */
-  function getValueTextDom(value) {
-    return <span className="text-lg font-bold color-primary">{value}</span>;
-  }
-  /**
-   * @description: 根据不同类型数据展示不同dom
-   * @param {String} label 数据显示名
-   * @param {String} value 数据值
-   * @param {Object} args 其他的参数
-   * @return {ReactNode}
-   */
-  function getValueDom(label, value, args) {
-    switch (label) {
-      case 'Account':
-        return (
-          <Paragraph className="!mb-0" copyable>
-            {getValueTextDom(value)}
-          </Paragraph>
-        );
-      case 'Balance':
-        return value ? getValueTextDom(value) : <Spin />;
-      case 'Chain Name':
-        return (
-          <a className="underline" href={args.url} target="_blank" rel="noreferrer">
-            {getValueTextDom(value)}
-          </a>
-        );
-      default:
-        return getValueTextDom(value);
-    }
-  }
-
-  /**
-   * @description: 获取余额货币后缀
-   * @param {Object} chain 当前链信息
-   * @return {String} 后缀单位
-   */
-  function getBalanceUnits(chain) {
-    if (!chain) return;
-    const {
-      nativeCurrency: { symbol },
-      name,
-    } = chain;
-    if (symbol.toLocaleUpperCase() === ETHEREUM_UNITS) {
-      if (chainId !== ETHEREUM_MAINNET_CHAIN_ID) {
-        return `${name}${symbol}`;
-      }
-    }
-    return symbol;
-  }
-
-  //基础信息数据字段列表
-  const dataList = [
-    { label: 'Account', value: account, span: 2 },
-    { label: 'Balance', value: `${balance} ${getBalanceUnits(currentChainInformation)}` },
-    {
-      label: 'Chain Name',
-      value: currentChainInformation?.name,
-      span: 2,
-      url: currentChainInformation?.infoURL,
-    },
-    { label: 'ChainId', value: chainId },
-  ];
-
-  return (
-    <Descriptions
-      title="Basic Information"
-      bordered
-      size="small"
-      items={dataList.map(({ label, value, ...args }) => {
-        const item = {
-          key: label,
-          label,
-          ...args,
-        };
-        item.children = getValueDom(label, value, args);
-        return item;
-      })}
-    />
-  );
-};
+const navigationList = [
+  {
+    label: 'Main',
+    key: 'Main',
+    icon: <HomeFilled />,
+  },
+  {
+    label: 'Blockchain View',
+    key: 'Blockchain View',
+    icon: <BlockChainIcon />,
+  },
+  {
+    label: 'Interact With Smart Contracts',
+    key: 'Interact With Smart Contracts',
+    icon: <SmartContractIcon />,
+  },
+];
 
 const Header = () => {
-  const connector = useWeb3React();
-  const { chainId, account } = connector;
-
+  const [current, setCurrent] = useState('Main');
+  const onClick = (e) => {
+    console.log('click ', e);
+    setCurrent(e.key);
+  };
   return (
-    <div className="grid  grid-flow-col auto-cols-fr gap-[20px] p-[10px] bg-white rounded-lg">
-      <HeaderBasicInfo {...{ account, chainId }} />
+    <div className="flex  rounded-lg bg-white">
+      <Menu
+        className="bg-transparent"
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+        items={navigationList}
+      />
     </div>
   );
 };

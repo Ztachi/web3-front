@@ -60,5 +60,7 @@ module.exports = defineConfig({
     'no-plusplus': 'off',
     'no-return-assign': 'off',
     'import/order': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'import/no-unresolved': 'off',
   },
 });

@@ -25,7 +25,7 @@ const Login = () => {
   return (
     <>
       <div className="h-screen flex justify-center items-center">
-        {walletList.map(({ name, icon, connector }) => (
+        {walletList.map(({ name, Icon, connector }) => (
           <Card
             key={name}
             className="mr-[20px]"
@@ -35,7 +35,7 @@ const Login = () => {
             }}
             cover={
               <div className="text-center py-10">
-                <img className="w-1/2" src={icon} alt={name} />
+                <Icon style={{ fontSize: '100px' }} />
               </div>
             }
           >
