@@ -2,14 +2,14 @@
  * @Author: 詹真琦(legendryztachi@gmail.com)
  * @Date: 2021-01-26 18:09:35
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-01-03 21:46:58
+ * @LastEditTime: 2024-02-21 17:38:08
  * @FilePath: \code\fulltime\data-broadcast-front-desk\src\api\modules\common.api.js
  * @Description: 通用API
  */
 import { region } from '../mock/common';
 
 const APIS = ({
-  // service,
+  service,
   // request,
   // serviceForMock,
   requestForMock,
@@ -35,6 +35,11 @@ const APIS = ({
       url: '/getRegionList',
       baseURL: '/api',
       params,
+    });
+  },
+  COMMON_GET_CHAIN_LIST() {
+    return service.request({
+      url: 'https://chainid.network/chains_mini.json',
     });
   },
 });

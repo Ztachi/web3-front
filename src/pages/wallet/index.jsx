@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-01-03 00:00:54
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-20 21:27:40
+ * @LastEditTime: 2024-02-21 21:03:38
  * @Description:
  */
 // import { useState, useEffect } from 'react';
@@ -16,6 +16,10 @@ import useCheckWalletConnection from '@/hooks/useCheckWalletConnection';
 import Header from './layout/Header';
 
 // import request from '@/api';
+
+// export const WalletIndex=()=>{
+
+// }
 
 const Wallet = () => {
   useCheckWalletConnection();
