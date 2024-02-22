@@ -25,3 +25,7 @@ img {
   margin: 0 auto;
   // background-color: hsl(0deg 0% 100% / 60%);
 }
+
+.ant-descriptions-view tbody > tr:last-child > td {
+  padding-bottom: 0;
+}

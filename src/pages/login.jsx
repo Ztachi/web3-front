@@ -28,7 +28,7 @@ const Login = () => {
         {walletList.map(({ name, Icon, connector }) => (
           <Card
             key={name}
-            className="mr-[20px]"
+            className="mr-[20px] transition-transform  hover:scale-125 hover:relative hover:z-10"
             hoverable
             onClick={() => {
               connect(connector);

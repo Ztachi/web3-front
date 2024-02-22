@@ -21,6 +21,8 @@ const BasicInfo = ({ account, chainId }) => {
   //账户余额
   const [balance, setBalance] = useState('fetching...');
 
+  console.log('currentChainInformation:', currentChainInformation);
+
   useEffect(() => {
     //获取余额
     web3.eth.getBalance(account).then((b) => {
@@ -91,10 +93,10 @@ const BasicInfo = ({ account, chainId }) => {
     {
       label: 'Chain Name',
       value: currentChainInformation?.name,
-      span: 2,
       url: currentChainInformation?.infoURL,
     },
-    { label: 'ChainId', value: chainId },
+    { label: 'Chain ID', value: chainId },
+    { label: 'Network ID', value: currentChainInformation?.networkId },
   ];
 
   return (

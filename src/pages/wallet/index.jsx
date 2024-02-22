@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-01-03 00:00:54
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-21 21:41:33
+ * @LastEditTime: 2024-02-22 18:27:25
  * @Description:
  */
 // import { useState, useEffect } from 'react';
@@ -14,8 +14,8 @@ import { Skeleton } from 'antd';
 import Web3Provider from '@/libs/wallet/components/Web3Provider';
 import useCheckWalletConnection from '@/hooks/useCheckWalletConnection';
 
-import Header from './layout/Header';
-import Footer from './layout/Footer';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import FloatButtonList from '@/components/floatButtonList';
 
 // import request from '@/api';

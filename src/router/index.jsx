@@ -2,9 +2,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import HomePage from '@/pages/homepage';
 import Demo from '@/pages/demo';
+import Tools from '@/pages/tools';
+import ChainSearch from '@/pages/tools/children/chainSearch';
 import Login from '@/pages/login';
 import Wallet from '@/pages/wallet';
-import WalletIndex from '@/pages/wallet/children/index';
+import WalletMain from '@/pages/wallet/children/main';
 import ErrorElement from '@/pages/error';
 
 const routes = [
@@ -18,13 +20,21 @@ const routes = [
     element: <Demo />,
   },
   {
+    element: <Tools />,
+    children: [
+      {
+        path: '/tools',
+        element: <ChainSearch />,
+      },
+    ],
+  },
+  {
     path: '/login',
     element: <Login />,
   },
   {
-    path: '/wallet',
     element: <Wallet />,
-    children: [{ path: '', element: <WalletIndex /> }],
+    children: [{ path: '/wallet', element: <WalletMain /> }],
   },
 ];
 
