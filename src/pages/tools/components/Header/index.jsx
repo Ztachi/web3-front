@@ -1,12 +1,7 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Menu, Input } from 'antd';
+import { Menu } from 'antd';
 
 import { BlockChainIcon1 } from '@/icons';
-
-import { setKeywords } from '@/store/modules/chain';
-
-const { Search } = Input;
 
 const navigationList = [
   {
@@ -18,7 +13,6 @@ const navigationList = [
 
 const Header = () => {
   const [current, setCurrent] = useState('Chains Search');
-  const dispatch = useDispatch();
   const onClick = (e) => {
     console.log('click ', e);
     setCurrent(e.key);
@@ -31,13 +25,6 @@ const Header = () => {
         selectedKeys={[current]}
         mode="horizontal"
         items={navigationList}
-      />
-      <Search
-        className="w-[400px] mr-[20px]"
-        placeholder="search by name or chainId"
-        allowClear
-        enterButton="Search"
-        onSearch={(keywords) => dispatch(setKeywords(keywords))}
       />
     </div>
   );

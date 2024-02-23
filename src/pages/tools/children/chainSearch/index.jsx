@@ -1,34 +1,93 @@
-// import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { getKeywords, getChainByNameOrChain } from '@/store/modules/chain';
+import { getKeywords, getChainByNameOrChain, setKeywords } from '@/store/modules/chain';
 
-import { Card, Descriptions, Popover } from 'antd';
+import { Button, Card, Descriptions, Popover, Pagination, Input } from 'antd';
+
+import SecondLevelPage from '@/components/layout/secondLevelPage';
 
 const { Meta } = Card;
+const { Search } = Input;
+
+//分页数量
+const pageSize = 48;
 
 const ChainSearch = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //关键词搜索
   const keywords = useSelector(getKeywords);
+  //筛选出来的列表
   const filterList = useSelector((state) => getChainByNameOrChain(state, keywords));
+  //第几页
+  const [pageNumber, setPageNumber] = useState(1);
+  //总页数
+  const currentPageStart = (pageNumber - 1) * pageSize;
+  const total = filterList.length;
 
   return (
-    <div className="flex flex-wrap gap-[20px] p-[20px]">
-      {filterList.map(({ name, chainId, networkId }) => (
-        <Card key={`${networkId}-${chainId}`} className="w-[240px]">
-          <Meta
-            title={<Popover title={name}>{name}</Popover>}
-            description={
-              <Descriptions
-                items={[
-                  { label: 'Chain ID', children: chainId, span: 3 },
-                  { label: 'network ID', children: networkId, span: 3 },
-                ]}
-              />
-            }
+    <SecondLevelPage
+      headers={
+        <>
+          <Search
+            className="w-[400px] mr-[20px]"
+            placeholder="search by name or chainId"
+            allowClear
+            enterButton="Search"
+            defaultValue={keywords}
+            onSearch={(text) => {
+              dispatch(setKeywords(text));
+              setPageNumber(1);
+            }}
           />
-        </Card>
-      ))}
-    </div>
+          <Pagination
+            simple
+            total={total}
+            pageSize={pageSize}
+            onChange={setPageNumber}
+            current={pageNumber}
+            showSizeChanger={false}
+          />
+        </>
+      }
+      options={{
+        containerClassName:
+          'grid grid-cols-5 2xl:grid-cols-6 gap-[10px] 2xl:gap-[20px] auto-rows-min ',
+      }}
+    >
+      {filterList
+        .slice(currentPageStart, currentPageStart + pageSize)
+        .map(({ name, chainId, networkId }) => (
+          <Card key={chainId}>
+            <Meta
+              title={
+                <Popover title={name}>
+                  <Button
+                    type="link"
+                    className="cursor-pointer pl-0"
+                    onClick={() => {
+                      navigate(`${chainId}`);
+                    }}
+                  >
+                    {name}
+                  </Button>
+                </Popover>
+              }
+              description={
+                <Descriptions
+                  items={[
+                    { label: 'Chain ID', children: chainId, span: 3 },
+                    { label: 'network ID', children: networkId, span: 3 },
+                  ]}
+                />
+              }
+            />
+          </Card>
+        ))}
+    </SecondLevelPage>
   );
 };
 

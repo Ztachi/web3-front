@@ -14,6 +14,10 @@ const Demo = () => {
     request.COMMON_GET_REGION_LIST().then((d) => setRegionList(d));
   }, []);
 
+  useEffect(() => {
+    console.log(count);
+  }, [count]);
+
   return (
     <div className="text-primary">
       颜色

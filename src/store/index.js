@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-01-03 00:02:37
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-12 20:11:53
+ * @LastEditTime: 2024-02-23 21:22:56
  * @Description:
  */
 import { configureStore } from '@reduxjs/toolkit';

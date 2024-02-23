@@ -2,12 +2,16 @@
   background-color: #1677ff;
 }
 
+.ant-descriptions-view tbody > tr:last-child > td {
+  padding-bottom: 0;
+}
+
 img {
   display: inline;
 }
 
 #root {
-  min-width: 1200px;
+  min-width: $minWidth;
   margin: 0 auto;
 }
 
@@ -20,12 +24,20 @@ img {
   top: 5vh;
   z-index: 1;
   height: 90vh;
-  min-width: 1200px;
+  min-width: $minWidth;
   // padding: 10px;
   margin: 0 auto;
   // background-color: hsl(0deg 0% 100% / 60%);
 }
 
-.ant-descriptions-view tbody > tr:last-child > td {
-  padding-bottom: 0;
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(75 85 99 / 51.1%);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background-clip: padding-box;
 }
