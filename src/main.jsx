@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
 import Web3ContextProvider from '@/libs/wallet/components/Web3ContextProvider';
-
+import CommonSuspense from '@/components/layout/commonSuspense';
 // import App from '@/App';
 import '@/assets/css/global.scss';
 
@@ -20,7 +20,9 @@ if (window.ethereum) {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <Web3ContextProvider>{router}</Web3ContextProvider>
+      <Web3ContextProvider>
+        <CommonSuspense>{router}</CommonSuspense>
+      </Web3ContextProvider>
     </Provider>
   </React.StrictMode>
 );

@@ -63,5 +63,6 @@ module.exports = defineConfig({
     'react/jsx-props-no-spreading': 'off',
     'import/no-unresolved': 'off',
     'react/jsx-curly-newline': 'off',
+    'react-refresh/only-export-components': 'off',
   },
 });
