@@ -1,10 +1,4 @@
-:where(button, [type='button'], [type='reset'], [type='submit']).ant-btn-primary {
-  background-color: #1677ff;
-}
-
-.ant-descriptions-view tbody > tr:last-child > td {
-  padding-bottom: 0;
-}
+@import './antdReset.scss';
 
 img {
   display: inline;

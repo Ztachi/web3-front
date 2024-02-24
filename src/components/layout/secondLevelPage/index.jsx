@@ -29,7 +29,7 @@ const SecondLevelPage = ({ children, headers, options = {} }) => {
       )}
 
       <div
-        className={`absolute ${noHeader ? 'top-[20px]' : 'top-[60px]'} left-[20px] right-0 bottom-[20px] overflow-auto ${containerClassName}`}
+        className={`absolute ${noHeader ? 'top-[20px]' : 'top-[60px]'} left-[20px] right-[20px] bottom-[20px] overflow-auto ${containerClassName}`}
       >
         {children}
       </div>

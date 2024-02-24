@@ -6,6 +6,8 @@ import { getKeywords, getChainByNameOrChain, setKeywords } from '@/store/modules
 
 import { Button, Card, Descriptions, Popover, Pagination, Input } from 'antd';
 
+import style from './index.module.scss';
+
 import SecondLevelPage from '@/components/layout/secondLevelPage';
 
 const { Meta } = Card;
@@ -55,13 +57,21 @@ const ChainSearch = () => {
       }
       options={{
         containerClassName:
-          'grid grid-cols-5 2xl:grid-cols-6 gap-[10px] 2xl:gap-[20px] auto-rows-min ',
+          'grid grid-cols-5 2xl:grid-cols-6 gap-[10px] 2xl:gap-[20px] auto-rows-min right-[8px]',
       }}
     >
       {filterList
         .slice(currentPageStart, currentPageStart + pageSize)
-        .map(({ name, chainId, networkId }) => (
-          <Card key={chainId}>
+        .map(({ name, chainId, networkId, icon }) => (
+          <Card
+            key={chainId}
+            className={style['ant-card-background']}
+            style={
+              icon && {
+                backgroundImage: `url("https://icons.llamao.fi/icons/chains/rsz_${icon}.jpg")`,
+              }
+            }
+          >
             <Meta
               title={
                 <Popover title={name}>

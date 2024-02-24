@@ -21,7 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <Web3ContextProvider>
-        <CommonSuspense>{router}</CommonSuspense>
+        <CommonSuspense fullscreen>{router}</CommonSuspense>
       </Web3ContextProvider>
     </Provider>
   </React.StrictMode>

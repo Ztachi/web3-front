@@ -49,11 +49,7 @@ const BasicInfo = ({ account, chainId }) => {
   function getValueDom(label, value, args) {
     switch (label) {
       case 'Account':
-        return (
-          <Paragraph className="!mb-0" copyable={{ text: value }}>
-            {getValueTextDom(value)}
-          </Paragraph>
-        );
+        return <Paragraph copyable={{ text: value }}>{getValueTextDom(value)}</Paragraph>;
       case 'Balance':
         return value ? getValueTextDom(value) : <Spin />;
       case 'Chain Name':

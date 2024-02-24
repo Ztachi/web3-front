@@ -14,6 +14,7 @@ import { Skeleton } from 'antd';
 import Web3Provider from '@/libs/wallet/components/Web3Provider';
 import useCheckWalletConnection from '@/hooks/useCheckWalletConnection';
 
+import CommonSuspense from '@/components/layout/commonSuspense';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import FloatButtonList from '@/components/floatButtonList';
@@ -37,7 +38,9 @@ const Wallet = () => {
       <Header />
 
       <Web3Provider provider={provider}>
-        <Outlet />
+        <CommonSuspense>
+          <Outlet />
+        </CommonSuspense>
       </Web3Provider>
 
       <Footer />

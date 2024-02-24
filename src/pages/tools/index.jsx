@@ -1,6 +1,7 @@
 import Header from './components/Header';
 import CommonSuspense from '@/components/layout/commonSuspense';
 import { Outlet } from 'react-router-dom';
+import FloatButtonList from '@/components/floatButtonList';
 
 const Tools = () => (
   <div className="grid grid-rows-[50px_1fr] gap-[10px] container rounded-lg">
@@ -10,6 +11,7 @@ const Tools = () => (
         <Outlet />
       </CommonSuspense>
     </div>
+    <FloatButtonList />
   </div>
 );
 
