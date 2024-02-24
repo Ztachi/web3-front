@@ -4,6 +4,8 @@ import { Menu } from 'antd';
 import { HomeFilled } from '@ant-design/icons';
 import { BlockChainIcon, SmartContractIcon } from '@/icons';
 
+import ChianHandle from './components/chianHandle';
+
 const navigationList = [
   {
     label: 'Main',
@@ -29,7 +31,7 @@ const Header = () => {
     setCurrent(e.key);
   };
   return (
-    <div className="flex  rounded-lg bg-white">
+    <div className="flex items-center justify-between rounded-lg bg-white pr-[10px]">
       <Menu
         className="bg-transparent"
         onClick={onClick}
@@ -37,6 +39,7 @@ const Header = () => {
         mode="horizontal"
         items={navigationList}
       />
+      <ChianHandle />
     </div>
   );
 };

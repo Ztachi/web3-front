@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
-import { Descriptions, Typography, Spin } from 'antd';
 import { useSelector } from 'react-redux';
+import { Descriptions, Typography, Spin } from 'antd';
 
-import { getChainById } from '@/store/modules/chain';
+import { getCurrentChain } from '@/store/modules/chain';
 import { Web3Context } from '@/libs/wallet/components/Web3Provider';
 
 import { ETHEREUM_MAINNET_CHAIN_ID, ETHEREUM_UNITS } from '@/const';
@@ -17,7 +17,7 @@ const { Paragraph } = Typography;
 const BasicInfo = ({ account, chainId }) => {
   const web3 = useContext(Web3Context);
   //当前链信息
-  const currentChainInformation = useSelector((state) => getChainById(state, chainId));
+  const currentChainInformation = useSelector(getCurrentChain);
   //账户余额
   const [balance, setBalance] = useState('fetching...');
 
@@ -51,8 +51,15 @@ const BasicInfo = ({ account, chainId }) => {
       case 'Account':
         return <Paragraph copyable={{ text: value }}>{getValueTextDom(value)}</Paragraph>;
       case 'Balance':
-        return value ? getValueTextDom(value) : <Spin />;
+        return value ? (
+          <>
+            {getValueTextDom(value)} <b>{args.units}</b>
+          </>
+        ) : (
+          <Spin />
+        );
       case 'Chain Name':
+      case 'Chain ID':
         return (
           <a className="underline" href={args.url} target="_blank" rel="noreferrer">
             {getValueTextDom(value)}
@@ -85,13 +92,13 @@ const BasicInfo = ({ account, chainId }) => {
   //基础信息数据字段列表
   const dataList = [
     { label: 'Account', value: account, span: 2 },
-    { label: 'Balance', value: `${balance} ${getBalanceUnits(currentChainInformation)}` },
+    { label: 'Balance', value: `${balance}`, units: getBalanceUnits(currentChainInformation) },
     {
       label: 'Chain Name',
       value: currentChainInformation?.name,
       url: currentChainInformation?.infoURL,
     },
-    { label: 'Chain ID', value: chainId },
+    { label: 'Chain ID', value: chainId, url: `/tools/${chainId}` },
     { label: 'Network ID', value: currentChainInformation?.networkId },
   ];
 

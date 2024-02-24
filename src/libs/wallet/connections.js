@@ -2,12 +2,13 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-11 21:32:16
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-18 19:21:55
+ * @LastEditTime: 2024-02-24 21:13:18
  * @Description: logics of connection
  */
 
 // import { CHAIN_INFO } from './constants';
 import walletList, { walletObj } from './walletList';
+import { errorLog } from '@/api/tools';
 
 function getIsBraveWallet() {
   return window.ethereum?.isBraveWallet ?? false;
@@ -30,31 +31,30 @@ export function getConnection(c) {
   return connection;
 }
 
-// export const switchNetwork = async (chainId, connectionType) => {
-//   if (!connectionType) {
-//     return;
-//   }
+export const switchNetwork = async (chain, { connector }) => {
+  // if (
+  //   connectionType === ConnectionType.WALLET_CONNECT ||
+  //   connectionType === ConnectionType.NETWORK
+  // ) {
+  //   await connector.activate(chainId);
+  //   return;
+  // }
 
-//   const { connector } = getConnection(connectionType);
-
-//   if (
-//     connectionType === ConnectionType.WALLET_CONNECT ||
-//     connectionType === ConnectionType.NETWORK
-//   ) {
-//     await connector.activate(chainId);
-//     return;
-//   }
-
-//   const chainInfo = CHAIN_INFO[chainId];
-//   const addChainParameter = {
-//     chainId,
-//     chainName: chainInfo.label,
-//     rpcUrls: [chainInfo.rpcUrl],
-//     nativeCurrency: chainInfo.nativeCurrency,
-//     blockExplorerUrls: [chainInfo.explorer],
-//   };
-//   await connector.activate(addChainParameter);
-// };
+  // const chainInfo = CHAIN_INFO[chainId];
+  const addChainParameter = {
+    chainId: chain.chainId,
+    chainName: chain.name,
+    rpcUrls: chain.rpc,
+    nativeCurrency: chain.nativeCurrency,
+    blockExplorerUrls: chain.explorers,
+  };
+  try {
+    await connector.activate(addChainParameter);
+  } catch (e) {
+    console.log(chain);
+    errorLog(e);
+  }
+};
 
 export const tryActivateConnector = async (connector) => {
   await connector.activate();

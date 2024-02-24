@@ -2,17 +2,19 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-01-03 00:00:54
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-22 18:27:25
+ * @LastEditTime: 2024-02-24 19:40:36
  * @Description:
  */
-// import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { Outlet } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { Skeleton } from 'antd';
 
 import Web3Provider from '@/libs/wallet/components/Web3Provider';
 import useCheckWalletConnection from '@/hooks/useCheckWalletConnection';
+import { setCurrentChain } from '@/store/modules/chain';
 
 import CommonSuspense from '@/components/layout/commonSuspense';
 import Header from './components/Header';
@@ -23,13 +25,23 @@ import FloatButtonList from '@/components/floatButtonList';
 
 const Wallet = () => {
   useCheckWalletConnection();
+  const dispatch = useDispatch();
 
   const {
     account,
+    chainId,
     connector: { provider },
   } = useWeb3React();
 
   console.log(account, provider);
+
+  useEffect(() => {
+    //刚登陆进来设置当前链
+    if (chainId) {
+      dispatch(setCurrentChain(chainId));
+    }
+  }, [dispatch, chainId]);
+
   if (!account) {
     return <Skeleton active />;
   }

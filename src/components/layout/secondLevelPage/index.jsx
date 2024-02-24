@@ -22,7 +22,12 @@ const SecondLevelPage = ({ children, headers, options = {} }) => {
       {!noHeader && (
         <div className="absolute top-[10px] left-[20px] right-[20px] h-[40px] flex gap-[20px] items-center">
           {headers || (
-            <Button onClick={() => navigate(-1, state && { state })} icon={<ArrowLeftOutlined />}>
+            <Button
+              onClick={() =>
+                navigate(window.history.state.idx === 0 ? '..' : -1, state && { state })
+              }
+              icon={<ArrowLeftOutlined />}
+            >
               Back
             </Button>
           )}

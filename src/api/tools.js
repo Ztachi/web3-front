@@ -57,10 +57,10 @@ export function responseError(data = {}, msg = '请求失败', code = 500) {
  */
 export function errorLog(error) {
   // 打印到控制台
-  if (import.meta.env.PROD) {
-    console.error('>>>>>> Error >>>>>>');
-    console.log(error);
-  }
+  // if (import.meta.env.PROD) {
+  console.error('>>>>>> Error >>>>>>');
+  console.log(error);
+  // }
   message.error(error.message);
 }
 
