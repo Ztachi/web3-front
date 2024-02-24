@@ -1,5 +1,5 @@
 // import { useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
@@ -15,15 +15,16 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
  * @return {ReactNode}
  */
 const SecondLevelPage = ({ children, headers, options = {} }) => {
+  const navigate = useNavigate();
   const { noHeader, containerClassName = [], state = null } = options;
   return (
     <>
       {!noHeader && (
         <div className="absolute top-[10px] left-[20px] right-[20px] h-[40px] flex gap-[20px] items-center">
           {headers || (
-            <Link to=".." relative="path" state={state}>
-              <Button icon={<ArrowLeftOutlined />}>Back</Button>
-            </Link>
+            <Button onClick={() => navigate(-1, state && { state })} icon={<ArrowLeftOutlined />}>
+              Back
+            </Button>
           )}
         </div>
       )}

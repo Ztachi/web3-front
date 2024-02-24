@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,6 +29,9 @@ const ChainSearch = () => {
   //总页数
   const currentPageStart = (pageNumber - 1) * pageSize;
   const total = filterList.length;
+
+  //推出的时候清空搜索
+  useEffect(() => () => dispatch(setKeywords('')), [dispatch]);
 
   return (
     <SecondLevelPage

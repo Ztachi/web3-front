@@ -35,15 +35,7 @@ const routes = createRoutesFromElements(
     <Route path="/" element={<HomePage />} errorElement={<ErrorElement />} />
     <Route path="/demo" element={<Demo />} />
     <Route path="/tools" element={<Tools />}>
-      <Route
-        shouldRevalidate={({ currentUrl }) => {
-          console.log(currentUrl);
-
-          return false;
-        }}
-        index
-        element={<ChainSearch />}
-      />
+      <Route index element={<ChainSearch />} />
       <Route path=":chainId" element={<ChainInformation />} />
     </Route>
     <Route path="/login" element={<Login />} />
