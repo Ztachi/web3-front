@@ -65,5 +65,6 @@ module.exports = defineConfig({
     'react/jsx-curly-newline': 'off',
     'react-refresh/only-export-components': 'off',
     'import/extensions': 'off',
+    'no-restricted-syntax': 'off',
   },
 });
