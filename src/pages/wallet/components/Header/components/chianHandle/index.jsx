@@ -1,20 +1,25 @@
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { Badge, Select } from 'antd';
 
 // import { Web3Context } from '@/libs/wallet/components/Web3Provider';
 
-import { getChainByNameOrChain } from '@/store/modules/chain';
+import { getChainList } from '@/store/modules/chain';
 import { switchNetwork, getConnection } from '@/libs/wallet/connections';
+
+function filterOption(input, option) {
+  return (
+    option.chainId === +input || option.name.toLocaleLowerCase().includes(input.toLocaleLowerCase())
+  );
+}
 
 const ChianHandle = () => {
   const { chainId, connector } = useWeb3React();
 
-  const [keywords, setKeywords] = useState('');
+  // const [keywords, setKeywords] = useState('');
 
   //筛选出来的列表
-  const filterList = useSelector((state) => getChainByNameOrChain(state, keywords));
+  const chainList = useSelector(getChainList);
 
   //当前链信息
   // const currentChainInformation = useSelector(getCurrentChain);
@@ -29,12 +34,12 @@ const ChianHandle = () => {
         placeholder="Select a chain"
         onChange={(v) => {
           switchNetwork(
-            filterList.find(({ chainId: id }) => id === +v),
+            chainList.find(({ chainId: id }) => id === +v),
             getConnection(connector)
           );
         }}
-        onSearch={setKeywords}
-        options={filterList}
+        filterOption={filterOption}
+        options={chainList}
         fieldNames={{ label: 'name', value: 'chainId' }}
         value={chainId}
       />

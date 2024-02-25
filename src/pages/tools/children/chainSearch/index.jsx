@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { getKeywords, getChainByNameOrChain, setKeywords } from '@/store/modules/chain';
 
-import { Button, Card, Descriptions, Popover, Pagination, Input } from 'antd';
+import { Button, Card, Descriptions, Popover, Pagination, Input, Empty } from 'antd';
 
 import style from './index.module.scss';
 
@@ -29,6 +29,10 @@ const ChainSearch = () => {
   //总页数
   const currentPageStart = (pageNumber - 1) * pageSize;
   const total = filterList.length;
+  //当前页展示数据
+  const currentPageDataList = filterList.slice(currentPageStart, currentPageStart + pageSize);
+  //是否有数据
+  const hasData = currentPageDataList.length > 0;
 
   //推出的时候清空搜索
   useEffect(() => () => dispatch(setKeywords('')), [dispatch]);
@@ -59,13 +63,11 @@ const ChainSearch = () => {
         </>
       }
       options={{
-        containerClassName:
-          'grid grid-cols-5 2xl:grid-cols-6 gap-[10px] 2xl:gap-[20px] auto-rows-min right-[8px]',
+        containerClassName: ` auto-rows-min right-[8px] ${hasData ? 'grid grid-cols-5 2xl:grid-cols-6 gap-[10px] 2xl:gap-[20px]' : 'flex justify-center items-center'}`,
       }}
     >
-      {filterList
-        .slice(currentPageStart, currentPageStart + pageSize)
-        .map(({ name, chainId, networkId, icon }) => (
+      {hasData ? (
+        currentPageDataList.map(({ name, chainId, networkId, icon }) => (
           <Card
             key={chainId}
             className={style['ant-card-background']}
@@ -99,7 +101,10 @@ const ChainSearch = () => {
               }
             />
           </Card>
-        ))}
+        ))
+      ) : (
+        <Empty />
+      )}
     </SecondLevelPage>
   );
 };

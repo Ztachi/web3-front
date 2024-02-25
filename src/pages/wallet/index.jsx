@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-01-03 00:00:54
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-24 19:40:36
+ * @LastEditTime: 2024-02-25 16:39:07
  * @Description:
  */
 import { useEffect } from 'react';
@@ -20,6 +20,7 @@ import CommonSuspense from '@/components/layout/commonSuspense';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import FloatButtonList from '@/components/floatButtonList';
+import SecondLevelPage from '@/components/layout/secondLevelPage';
 
 // import request from '@/api';
 
@@ -51,7 +52,11 @@ const Wallet = () => {
 
       <Web3Provider provider={provider}>
         <CommonSuspense>
-          <Outlet />
+          <div className="relative bg-white rounded-lg">
+            <SecondLevelPage noHeader>
+              <Outlet />
+            </SecondLevelPage>
+          </div>
         </CommonSuspense>
       </Web3Provider>
 

@@ -24,6 +24,7 @@ const BasicInfo = ({ account, chainId }) => {
   console.log('currentChainInformation:', currentChainInformation);
 
   useEffect(() => {
+    setBalance('fetching...');
     //获取余额
     web3.eth.getBalance(account).then((b) => {
       const a = web3.utils.fromWei(b, 'ether');

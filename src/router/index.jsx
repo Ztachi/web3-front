@@ -27,6 +27,8 @@ const ChainInformation = lazy(() => import('@/pages/tools/children/chainInformat
 const Login = lazy(() => import('@/pages/login'));
 const Wallet = lazy(() => import('@/pages/wallet'));
 const WalletMain = lazy(() => import('@/pages/wallet/children/main'));
+const BlockchainView = lazy(() => import('@/pages/wallet/children/blockchainView'));
+const Interact = lazy(() => import('@/pages/wallet/children/interact'));
 
 const ErrorElement = lazy(() => import('@/pages/error'));
 
@@ -41,6 +43,8 @@ const routes = createRoutesFromElements(
     <Route path="/login" element={<Login />} />
     <Route path="/wallet" element={<Wallet />}>
       <Route index element={<WalletMain />} />
+      <Route path="blockchainView" element={<BlockchainView />} />
+      <Route path="interact" element={<Interact />} />
     </Route>
   </>
 );

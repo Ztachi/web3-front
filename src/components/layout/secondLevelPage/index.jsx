@@ -8,15 +8,15 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
  * @description: 二级界面框架
  * @param {ReactNode} children
  * @param {ReactNode} headers 自定义头部内容。默认是返回按钮
+ * @param {Boolean} noHeader 是否不需要头部
  * @param {Object} options
- * @param {Boolean} options.noHeader 是否不需要头部
  * @param {Array}options.containerClassName 添加内容容器的class
  * @param {Object}options.state 添加界面跳转的state
  * @return {ReactNode}
  */
-const SecondLevelPage = ({ children, headers, options = {} }) => {
+const SecondLevelPage = ({ children, noHeader = false, headers, options = {} }) => {
   const navigate = useNavigate();
-  const { noHeader, containerClassName = [], state = null } = options;
+  const { containerClassName = [], state = null } = options;
   return (
     <>
       {!noHeader && (
