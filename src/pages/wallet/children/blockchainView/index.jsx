@@ -1,40 +1,40 @@
 import { useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 
-import { List, InputNumber } from 'antd';
+import { InputNumber, Spin } from 'antd';
 
 import useGetBlockchainDataList from '@/hooks/useGetBlockchainDataList';
 import PageLoading from '@/components/pageLoading';
+import SecondLevelPage from '@/components/layout/secondLevelPage';
+import BlockchainChart from './components/blockchainChart';
 
 const BlockchainView = () => {
   const connector = useWeb3React();
   const [blockNumber, setBlockNumber] = useState(2518);
-  const { account } = connector;
-  const blockchainDataList = useGetBlockchainDataList(blockNumber);
+  const { account, chainId } = connector;
+  const { blockchainDataList, isFetching } = useGetBlockchainDataList(chainId, blockNumber);
   console.log(account, blockchainDataList);
-
-  if (!blockchainDataList) {
-    return <PageLoading />;
-  }
 
   return (
     <div>
-      <InputNumber
-        min={0}
-        max={1000000}
-        defaultValue={blockNumber}
-        onPressEnter={(e) => {
-          setBlockNumber(e.target.value);
-        }}
-        changeOnWheel
-      />
-      <List
-        size="large"
-        header={`block Data(${blockNumber - 2} - ${blockNumber}):`}
-        bordered
-        dataSource={blockchainDataList}
-        renderItem={(item) => <List.Item>{JSON.stringify(item)}</List.Item>}
-      />
+      <SecondLevelPage
+        headers={
+          <>
+            <InputNumber
+              min={0}
+              max={1000000}
+              defaultValue={blockNumber}
+              onPressEnter={(e) => {
+                setBlockNumber(e.target.value);
+              }}
+              changeOnWheel
+            />
+            {isFetching && <Spin />}
+          </>
+        }
+      >
+        {blockchainDataList ? <BlockchainChart dataList={blockchainDataList} /> : <PageLoading />}
+      </SecondLevelPage>
     </div>
   );
 };

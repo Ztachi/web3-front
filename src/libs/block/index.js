@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-25 18:59:23
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-25 20:15:40
+ * @LastEditTime: 2024-02-26 13:27:48
  * @Description: 区块相关数据处理
  */
 /**
@@ -75,6 +75,8 @@ export async function getUncleBlock(eth, blockNumber = 'latest') {
  * @return {Object} 完整区块信息,多了个uncles属性存放叔叔区块
  */
 export async function getCompleteBlock(eth, blockNumber = 'latest') {
+  console.log('fetch data', blockNumber);
+
   //获取当前区块
   const block = await getBlock(eth, blockNumber);
   //获取当前区块的叔叔区块
@@ -89,18 +91,38 @@ export async function getCompleteBlock(eth, blockNumber = 'latest') {
  * @param {Object} eth ETH对象
  * @param {Number} number 往前多少个
  * @param {Number|String} blockNumber 区块号。可以是数字，也可以是哈希值
+ * @param {Object} cacheData 缓存数据
+ * @param {Array} blockList 初始列表
  * @return {Array} 返回完整数组
  */
-export async function getBlockList(eth, number = 1, blockNumber = 'latest', blockList = []) {
+export async function getBlockList(
+  eth,
+  number = 1,
+  blockNumber = 'latest',
+  cacheData = {},
+  blockList = []
+) {
   //至少获取当前这个。或者获取到最前端的区块
   if (number < 1 || blockNumber < 0) return blockList;
+
   //获取当前区块和他的叔叔区块
-  const currentCompleteBlock = await getCompleteBlock(eth, blockNumber);
+  let currentCompleteBlock = null;
+
+  //有缓存就用缓存
+  if (cacheData[blockNumber]) {
+    currentCompleteBlock = cacheData[blockNumber];
+  } else {
+    //没有就重新获取
+    currentCompleteBlock = await getCompleteBlock(eth, blockNumber);
+    cacheData[blockNumber] = currentCompleteBlock;
+  }
+
   //获取上一个他的区块
   const prev = await getBlockList(
     eth,
     number - 1,
     currentCompleteBlock.number - 1,
+    cacheData,
     [currentCompleteBlock].concat(blockList)
   );
   return prev;

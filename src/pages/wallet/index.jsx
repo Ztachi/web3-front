@@ -20,8 +20,6 @@ import CommonSuspense from '@/components/layout/commonSuspense';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import FloatButtonList from '@/components/floatButtonList';
-import SecondLevelPage from '@/components/layout/secondLevelPage';
-
 // import request from '@/api';
 
 const Wallet = () => {
@@ -53,9 +51,7 @@ const Wallet = () => {
       <Web3Provider provider={provider}>
         <CommonSuspense>
           <div className="relative bg-white rounded-lg">
-            <SecondLevelPage noHeader>
-              <Outlet />
-            </SecondLevelPage>
+            <Outlet />
           </div>
         </CommonSuspense>
       </Web3Provider>

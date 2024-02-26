@@ -1,8 +1,15 @@
+/*
+ * @Author: ztachi(legendryztachi@gmail.com)
+ * @Date: 2024-02-24 22:29:45
+ * @LastEditors: ztachi(legendryztachi@gmail.com)
+ * @LastEditTime: 2024-02-26 13:01:02
+ * @Description: 登录状态检测
+ */
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useWeb3React } from '@web3-react/core';
 
-const useCheckWalletConnection = async () => {
+const useCheckWalletConnection = () => {
   const { account } = useWeb3React();
   const { pathname } = useLocation();
   const navigate = useNavigate();
