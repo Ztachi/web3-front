@@ -28,16 +28,24 @@ echarts.use([
   CanvasRenderer,
 ]);
 
-// const CANVAS_WIDTH = 2000;
+const BLOCK_GAP = 50;
 /**
- * @description: 根据索引获取X坐标数值
- * @param {Number} index
- * @param {Number} index
- * @return {*}
+ * @description: 根据索引获取叔叔区块坐标数值
+ * @param {Number} index 当前区块索引
+ * @param {Number} uncleIndex 当前区块所对应的叔叔区块索引
+ * @return {Object}x横坐标 y纵坐标
  */
-// function getX(index, uncleIndex) {
-
-// }
+function getUncleCoord(index, uncleIndex) {
+  //偶数在下面奇数在上面
+  const y = uncleIndex % 2 === 0 ? 150 : 50;
+  //横坐标为当前区块位置从上往下从左往右依次排列
+  //         向右一格
+  const x = (index * BLOCK_GAP) / 1.5;
+  return {
+    x,
+    y,
+  };
+}
 
 /**
  * @description: 根据输入的原始数据输出echarts需要的数据
@@ -49,58 +57,72 @@ function transformDataList(dataList) {
   // const length = dataList.length;
 
   //展开数组
-  // const flatList = [];
-  return dataList.map((item, index) =>
-    Object.assign(item, {
-      name: `block-${item.number}`,
-      x: (index + 1) * 100,
-      y: 300,
-    })
-  );
-}
-//有叔叔区块就加上叔叔区块
-//   if (item.uncleBlockNumber) {
-//     item.uncles.forEach((uncle, i) => {
-//       uncle.index = i + 1;
-//       uncle.source = index;
-//     });
-//     //加入到数组
-//     flatList.push(...item.uncles);
-//     //设置target关系
-//     item.target = new Array(item.uncleBlockNumber)
-//       .fill()
-//       .map((d, i) => index - (item.uncleBlockNumber - i));
-//   }
-//   //标识一下
-//   item.isMainBlock = true;
-//   flatList.push(...item);
-// });
+  const flatList = [];
 
-// return flatList.map((d, i) => {
-//   //如果是主要区块
-//   if (d.isMainBlock) {
-// return Object.assign(d, {
-//   name: `block-${d.number}`,
-//   x: (i + 1) * 100,
-//   y: 300,
-// });
-//   }
-//   //叔叔区块
-//   return Object.assign(d, {
-//     name: `uncle block-${d.index}`,
-//     x: (i + 1) * 100,
-//     y: 300,
-//   });
-// });
-// });
-// }
+  dataList.forEach((item, index) => {
+    if (index === 0) {
+      item.isFirst = true;
+    }
+    //有叔叔区块就加上叔叔区块
+    if (item.uncleBlockNumber) {
+      item.uncles.forEach((uncle, i) => {
+        //处于叔叔区块集合中的第几个
+        uncle.index = i + 1;
+        //叔叔区块距离主区块的数值
+        uncle.rise = item.uncleBlockNumber - i - 1;
+      });
+      //加入到数组
+      flatList.push(...item.uncles);
+    }
+    //标识一下主区块
+    item.isMainBlock = true;
+    flatList.push(item);
+  });
+
+  return flatList.map((d, i) => {
+    //如果是主要区块
+    if (d.isMainBlock) {
+      return Object.assign(d, {
+        name: `block-${d.number}`,
+        x: (d.isFirst ? i : i - d.uncleBlockNumber) * BLOCK_GAP,
+        y: 100,
+      });
+    }
+    //叔叔区块
+    return Object.assign(
+      d,
+      {
+        name: `uncle block-${d.index}(${d.number})`,
+        blockName: `block-${d.number}`,
+      },
+      getUncleCoord(i - d.rise, d.index)
+    );
+  });
+}
 
 /**
  * @description: 根据转换后的数据生成links
  * @param {Array} dataList 转换后的数据数组
  * @return {Array} links数据数组
  */
-// function getLinks(dataList) {}
+function getLinks(dataList) {
+  const links = [];
+  dataList.forEach((data) => {
+    const { blockName, name, number, uncleBlockNumber, uncles } = data;
+    if (blockName) {
+      links.push({ source: name, target: blockName });
+    } else {
+      links.push({ source: name, target: `block-${number - 1}` });
+      //有叔叔区块还要指向叔叔区块
+      if (uncleBlockNumber) {
+        uncles.forEach((uncle) => {
+          links.push({ source: name, target: `uncle block-${uncle.index}(${uncle.number})` });
+        });
+      }
+    }
+  });
+  return links;
+}
 
 /**
  * @description: 传入原始数据，生成echarts配置
@@ -111,7 +133,9 @@ function getOption(dataList) {
   //转换展示数据
   const data = transformDataList(dataList);
   //根据展示数据生成links
-  // const links = getLinks(data);
+  const links = getLinks(data);
+  console.log(data, links);
+
   return {
     title: {
       text: 'Basic Graph',
@@ -134,20 +158,7 @@ function getOption(dataList) {
           fontSize: 20,
         },
         data,
-        links: [
-          {
-            source: 3,
-            target: 2,
-          },
-          {
-            source: 2,
-            target: 1,
-          },
-          {
-            source: 1,
-            target: 0,
-          },
-        ],
+        links,
         lineStyle: {
           opacity: 0.9,
           width: 2,
