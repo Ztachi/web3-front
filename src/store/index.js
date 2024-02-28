@@ -9,11 +9,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import counter from './modules/counter';
 import wallet from './modules/wallet';
 import chain from './modules/chain';
+import block from './modules/block';
 
 export default configureStore({
   reducer: {
     counter,
     wallet,
     chain,
+    block,
   },
 });

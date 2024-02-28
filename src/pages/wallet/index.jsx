@@ -46,9 +46,9 @@ const Wallet = () => {
   }
   return (
     <div className="grid grid-rows-[50px_1fr_50px] gap-[10px] text-primary container rounded-lg">
-      <Header />
-
       <Web3Provider provider={provider}>
+        <Header />
+
         <CommonSuspense>
           <div className="relative bg-white rounded-lg">
             <Outlet />

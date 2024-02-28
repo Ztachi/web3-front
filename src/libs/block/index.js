@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-25 18:59:23
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-26 13:27:48
+ * @LastEditTime: 2024-02-28 14:36:15
  * @Description: 区块相关数据处理
  */
 /**
@@ -45,8 +45,6 @@ export async function getBlock(eth, blockNumber = 'latest', returnTransactionObj
  * @return {Array} [叔叔区块数据列表,叔叔区块数]
  */
 export async function getUncleBlock(eth, blockNumber = 'latest') {
-  console.log(blockNumber);
-
   //先获取叔叔区块数
   const uncleBlockNumber = Number.parseInt(
     (await eth.getBlockUncleCount(blockNumber)).toString(),
@@ -79,6 +77,7 @@ export async function getCompleteBlock(eth, blockNumber = 'latest') {
 
   //获取当前区块
   const block = await getBlock(eth, blockNumber);
+  if (!block) return null;
   //获取当前区块的叔叔区块
   const [uncles, uncleBlockNumber] = await getUncleBlock(eth, blockNumber);
   block.uncles = uncles;
@@ -121,9 +120,9 @@ export async function getBlockList(
   const prev = await getBlockList(
     eth,
     number - 1,
-    currentCompleteBlock.number - 1,
+    blockNumber - 1,
     cacheData,
-    [currentCompleteBlock].concat(blockList)
+    currentCompleteBlock ? [currentCompleteBlock].concat(blockList) : blockList
   );
   return prev;
 }

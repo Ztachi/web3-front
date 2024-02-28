@@ -16,6 +16,7 @@ const { Paragraph } = Typography;
  */
 const BasicInfo = ({ account, chainId }) => {
   const web3 = useContext(Web3Context);
+
   //当前链信息
   const currentChainInformation = useSelector(getCurrentChain);
   //账户余额
