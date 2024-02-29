@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-25 18:59:23
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-28 14:36:15
+ * @LastEditTime: 2024-02-29 13:05:55
  * @Description: 区块相关数据处理
  */
 /**
@@ -108,7 +108,7 @@ export async function getBlockList(
   let currentCompleteBlock = null;
 
   //有缓存就用缓存
-  if (cacheData[blockNumber]) {
+  if (cacheData[blockNumber] && cacheData[blockNumber]) {
     currentCompleteBlock = cacheData[blockNumber];
   } else {
     //没有就重新获取
@@ -120,7 +120,7 @@ export async function getBlockList(
   const prev = await getBlockList(
     eth,
     number - 1,
-    blockNumber - 1,
+    currentCompleteBlock ? currentCompleteBlock.number - 1 : blockNumber - 1,
     cacheData,
     currentCompleteBlock ? [currentCompleteBlock].concat(blockList) : blockList
   );

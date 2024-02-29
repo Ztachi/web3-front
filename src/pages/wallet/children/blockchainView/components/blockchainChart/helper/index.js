@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-28 11:23:02
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-28 16:17:27
+ * @LastEditTime: 2024-02-29 10:36:10
  * @Description:对区块链绘制的配置
  */
 import dayjs from 'dayjs';
@@ -173,9 +173,9 @@ export default function getOption(dataList) {
   //根据展示数据生成links
   const links = getLinks(data);
   console.log(data, links);
-
+  const container = document.querySelector('#wallet-container');
   return {
-    width: dataList.length * 450,
+    width: (dataList.length * container.offsetWidth) / 4,
     title: {
       text: 'Blockchain',
     },

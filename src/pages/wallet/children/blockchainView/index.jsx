@@ -19,7 +19,7 @@ const BlockchainView = () => {
   const newBlock = useSelector(getNewBlock);
 
   //区块序号
-  const [blockNumber, setBlockNumber] = useState(newBlock ? +newBlock.number : 2518);
+  const [blockNumber, setBlockNumber] = useState('latest');
   //往前展示多少个区块
   const [blockAmount, setBlockAmount] = useState(3);
   //是否保持最新

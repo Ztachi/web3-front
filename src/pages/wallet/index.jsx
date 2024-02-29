@@ -45,7 +45,10 @@ const Wallet = () => {
     return <Skeleton active />;
   }
   return (
-    <div className="grid grid-rows-[50px_1fr_50px] gap-[10px] text-primary container rounded-lg">
+    <div
+      id="wallet-container"
+      className="grid grid-rows-[50px_1fr_50px] gap-[10px] text-primary container rounded-lg"
+    >
       <Web3Provider provider={provider}>
         <Header />
 
