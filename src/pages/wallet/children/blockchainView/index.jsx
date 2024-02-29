@@ -88,7 +88,7 @@ const BlockchainView = () => {
             </Form.Item>
             <Form.Item>
               <div className="flex justify-center items-center">
-                Keep the Latest Block:{' '}
+                Keep the Latest Block:
                 <Switch
                   className="bg-gray-300 ml-[10px]"
                   checked={isKeepLatest}

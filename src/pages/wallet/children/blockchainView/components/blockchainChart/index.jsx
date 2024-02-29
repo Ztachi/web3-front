@@ -1,6 +1,6 @@
 // import { useState, useEffect } from 'react';
 
-import { useRef, useEffect, useMemo } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import * as echarts from 'echarts/core';
 import { GraphChart } from 'echarts/charts';
 import {
@@ -16,6 +16,8 @@ import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 
 import { Empty } from 'antd';
+
+import BlockDetails from './components/blockDetails';
 
 import getOption from './helper';
 
@@ -33,9 +35,11 @@ echarts.use([
 ]);
 
 const BlockchainChart = ({ dataList, isFetching }) => {
+  //弹出数据
+  const [currentData, setCurrentData] = useState(null);
   const echartsDom = useRef(null);
   const myChart = useRef(null);
-
+  //echarts配置项
   const option = useMemo(() => getOption(dataList), [dataList]);
 
   //退出销毁
@@ -64,10 +68,19 @@ const BlockchainChart = ({ dataList, isFetching }) => {
       myChart.current = echarts.init(echartsDom.current);
     }
     myChart.current.setOption(option);
+    //点击区块
+    myChart.current.on('click', (params) => {
+      console.log(params);
+      setCurrentData(params.data);
+    });
+    return () => {
+      myChart.current.off('click');
+    };
   }, [echartsDom, option]);
 
   return (
     <div className="h-full relative" ref={echartsDom}>
+      <BlockDetails data={currentData} setCurrentData={setCurrentData} />
       {!dataList.length && (
         <div className="h-full absolute top-0 w-full flex justify-center items-center">
           <Empty />

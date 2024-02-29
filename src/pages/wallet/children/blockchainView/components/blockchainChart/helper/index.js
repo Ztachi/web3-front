@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-28 11:23:02
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-29 10:36:10
+ * @LastEditTime: 2024-02-29 20:45:11
  * @Description:对区块链绘制的配置
  */
 import dayjs from 'dayjs';
@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
  * @param {Number} bytes 文件比特数
  * @return {String} 格式化之后的样式
  */
-function formatFileSize(bytes) {
+export function formatFileSize(bytes) {
   bytes = +bytes;
   const units = ['B', 'KB', 'MB', 'GB', 'TB'];
   while (bytes >= 1024 && units.length > 1) {
@@ -19,6 +19,15 @@ function formatFileSize(bytes) {
     units.shift();
   }
   return Number(bytes.toFixed(2)) + units[0];
+}
+
+/**
+ * @description: 格式化时间戳
+ * @param {string|Number} timestamp 时间戳
+ * @return {String} 格式化之后的时间
+ */
+export function formatTimestamp(timestamp) {
+  return dayjs(timestamp * 1000).format('YYYY-MM-DD HH:mm:ss');
 }
 
 //区块与区块间的间隙
@@ -51,9 +60,7 @@ const TOOLTIP_FIELD_LIST = [
   {
     name: 'Timestamp',
     value: 'timestamp',
-    formatter(data) {
-      return dayjs(data * 1000).format('YYYY-MM-DD HH:mm:ss');
-    },
+    formatter: (data) => formatTimestamp(data),
   },
 ];
 

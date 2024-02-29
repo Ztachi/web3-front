@@ -2,8 +2,16 @@
   background-color: #1677ff;
 }
 
-.ant-descriptions-view tbody > tr:last-child > td {
-  padding-bottom: 0;
+.ant-descriptions-view tbody > tr {
+  &:last-child > td {
+    padding-bottom: 0;
+  }
+
+  > td {
+    .ant-typography {
+      margin-bottom: 0;
+    }
+  }
 }
 
 div:where(.css-dev-only-do-not-override-1xg9z9n).ant-typography,
