@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-25 19:07:44
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-28 18:49:59
+ * @LastEditTime: 2024-02-29 17:56:32
  * @Description: 获取制定区块数据，以及它的上N个区块和与之对应的叔叔区块
  */
 import { useContext, useRef, useState, useEffect } from 'react';
@@ -20,17 +20,28 @@ import { getBlockList } from '@/libs/block';
 const useGetBlockchainDataList = (chainId, initBlockNumber, blockNumber = 3) => {
   const web3 = useContext(Web3Context);
   const [blockchainDataList, setBlockchainDataList] = useState(null);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState();
 
   //缓存
   const cacheData = useRef({});
+  const cacheChainId = useRef(chainId);
   if (!cacheData.current[chainId]) {
     cacheData.current[chainId] = {};
   }
   // console.log(blockList);
 
   useEffect(() => {
+    let ignore = false;
     // setBlockList(null);
+
+    //只是频道改变了不触发刷新数据。
+    //频道改变过后，改变区块号initBlockNumber来刷新
+    if (cacheChainId.current !== chainId) {
+      cacheChainId.current = chainId;
+      return () => {
+        ignore = true;
+      };
+    }
     setIsFetching(true);
     async function getBlockListAsync() {
       //有叔叔区块的:1000 1500 2500 2518 2516
@@ -40,12 +51,17 @@ const useGetBlockchainDataList = (chainId, initBlockNumber, blockNumber = 3) => 
         initBlockNumber,
         cacheData.current[chainId]
       );
-      console.log(list.map((item) => item.uncles.length));
-      setBlockchainDataList(list);
+      console.log(list.map((item) => item.number));
+      if (!ignore) {
+        setBlockchainDataList(list);
+      }
     }
     getBlockListAsync().finally(() => {
       setIsFetching(false);
     });
+    return () => {
+      ignore = true;
+    };
   }, [web3.eth, initBlockNumber, blockNumber, chainId]);
 
   return { blockchainDataList, isFetching };

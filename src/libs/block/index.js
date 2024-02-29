@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-25 18:59:23
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-29 13:05:55
+ * @LastEditTime: 2024-02-29 17:04:40
  * @Description: 区块相关数据处理
  */
 /**
@@ -73,8 +73,6 @@ export async function getUncleBlock(eth, blockNumber = 'latest') {
  * @return {Object} 完整区块信息,多了个uncles属性存放叔叔区块
  */
 export async function getCompleteBlock(eth, blockNumber = 'latest') {
-  console.log('fetch data', blockNumber);
-
   //获取当前区块
   const block = await getBlock(eth, blockNumber);
   if (!block) return null;
@@ -113,9 +111,10 @@ export async function getBlockList(
   } else {
     //没有就重新获取
     currentCompleteBlock = await getCompleteBlock(eth, blockNumber);
+
     cacheData[blockNumber] = currentCompleteBlock;
   }
-
+  console.log('fetch data', blockNumber, currentCompleteBlock?.number, number, blockList);
   //获取上一个他的区块
   const prev = await getBlockList(
     eth,

@@ -35,15 +35,19 @@ const BlockchainView = () => {
   );
 
   useEffect(() => {
+    setIsKeepLatest(true);
+  }, [chainId]);
+
+  useEffect(() => {
     //开启了一直展示最新区块号
-    if (isKeepLatest && newBlock) {
+    if (isKeepLatest && newBlock && !isFetching) {
       const number = +newBlock.number;
       setBlockNumber(number);
       form.setFieldsValue({
         blockNumber: number,
       });
     }
-  }, [isKeepLatest, newBlock, form]);
+  }, [isKeepLatest, newBlock, form, isFetching]);
 
   return (
     <div>
