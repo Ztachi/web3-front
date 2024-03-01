@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import cn from 'classnames';
 
 import { getKeywords, getChainByNameOrChain, setKeywords } from '@/store/modules/chain';
 
@@ -63,7 +64,12 @@ const ChainSearch = () => {
         </>
       }
       options={{
-        containerClassName: ` auto-rows-min right-[8px] ${hasData ? 'grid grid-cols-5 2xl:grid-cols-6 gap-[10px] 2xl:gap-[20px]' : 'flex justify-center items-center'}`,
+        containerClassName: cn(
+          'auto-rows-min right-[8px]',
+          hasData
+            ? 'grid grid-cols-5 2xl:grid-cols-6 gap-[10px] 2xl:gap-[20px]'
+            : 'flex justify-center items-center'
+        ),
       }}
     >
       {hasData ? (

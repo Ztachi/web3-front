@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-01-03 00:00:54
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-25 16:39:07
+ * @LastEditTime: 2024-03-01 11:26:16
  * @Description:
  */
 import { useEffect } from 'react';
@@ -50,16 +50,16 @@ const Wallet = () => {
       className="grid grid-rows-[50px_1fr_50px] gap-[10px] text-primary container rounded-lg"
     >
       <Web3Provider provider={provider}>
-        <Header />
+        <Header className="shadow-2xl" />
 
         <CommonSuspense>
-          <div className="relative bg-white rounded-lg">
+          <div className="relative bg-white rounded-lg shadow-lg">
             <Outlet />
           </div>
         </CommonSuspense>
       </Web3Provider>
 
-      <Footer />
+      <Footer className="shadow-2xl" />
 
       <FloatButtonList />
     </div>

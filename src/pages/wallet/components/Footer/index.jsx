@@ -47,8 +47,8 @@ const LinkList = [
   },
 ];
 
-const Footer = () => (
-  <div className="bg-white rounded-lg p-[10px] leading-[30px]">
+const Footer = ({ className }) => (
+  <div className={`bg-white rounded-lg p-[10px] leading-[30px] ${className}`}>
     {LinkList.map(({ label, url }) => (
       <Button
         title={`jump to ${label}`}

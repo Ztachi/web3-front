@@ -33,7 +33,7 @@ const getNavigationList = (basePath) => [
   },
 ];
 
-const Header = () => {
+const Header = ({ className }) => {
   const matches = useMatches();
   const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ const Header = () => {
   });
 
   return (
-    <div className="flex items-center justify-between rounded-lg bg-white pr-[10px]">
+    <div className={`flex items-center justify-between rounded-lg bg-white pr-[10px] ${className}`}>
       <Menu
         className="bg-transparent"
         selectedKeys={matches.map((m) => m.pathname)}

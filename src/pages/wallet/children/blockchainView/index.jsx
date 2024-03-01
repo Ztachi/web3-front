@@ -10,13 +10,13 @@ import PageLoading from '@/components/pageLoading';
 import SecondLevelPage from '@/components/layout/secondLevelPage';
 import BlockchainChart from './components/blockchainChart';
 
-import { getNewBlock } from '@/store/modules/block';
+import { getNewBlockNumber } from '@/store/modules/block';
 
 const BlockchainView = () => {
   const connector = useWeb3React();
   const [form] = Form.useForm();
   //最新区块
-  const newBlock = useSelector(getNewBlock);
+  const newBlockNumber = useSelector(getNewBlockNumber);
 
   //区块序号
   const [blockNumber, setBlockNumber] = useState('latest');
@@ -40,14 +40,14 @@ const BlockchainView = () => {
 
   useEffect(() => {
     //开启了一直展示最新区块号
-    if (isKeepLatest && newBlock && !isFetching) {
-      const number = +newBlock.number;
+    if (isKeepLatest && newBlockNumber && !isFetching) {
+      const number = newBlockNumber;
       setBlockNumber(number);
       form.setFieldsValue({
         blockNumber: number,
       });
     }
-  }, [isKeepLatest, newBlock, form, isFetching]);
+  }, [isKeepLatest, newBlockNumber, form, isFetching]);
 
   return (
     <div>

@@ -4,6 +4,10 @@ img {
   display: inline;
 }
 
+body {
+  background-color: #000;
+}
+
 #root {
   min-width: $minWidth;
   margin: 0 auto;

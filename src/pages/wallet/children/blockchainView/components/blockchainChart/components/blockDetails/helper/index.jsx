@@ -41,7 +41,7 @@ function getValueDom(label, value, args) {
       return <Paragraph copyable={{ text: value }}>{value}</Paragraph>;
     case 'Transactions':
     case 'Uncles':
-      return value.length ? (
+      return value?.length ? (
         <List dataSource={value} renderItem={(item) => getListItem(label, item)} />
       ) : (
         ' - '

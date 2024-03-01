@@ -7,7 +7,7 @@ import { AnimatedCounter } from 'react-animated-counter';
 import { Web3Context } from '@/libs/wallet/components/Web3Provider';
 
 import { getChainList } from '@/store/modules/chain';
-import { getNewBlock, setNewBlock } from '@/store/modules/block';
+import { getNewBlockNumber, setNewBlockNumber, setNewBlock } from '@/store/modules/block';
 import { switchNetwork, getConnection } from '@/libs/wallet/connections';
 import { formatBlockInformation } from '@/libs/block';
 
@@ -25,14 +25,14 @@ const ChianHandle = () => {
 
   //筛选出来的列表
   const chainList = useSelector(getChainList);
-  //最新区块
-  const newBlock = useSelector(getNewBlock);
+  //最新区块号
+  const newBlockNumber = useSelector(getNewBlockNumber);
   //
 
   useEffect(() => {
     //获取最后一个区块
-    web3.eth.getBlock('latest').then((d) => {
-      dispatch(setNewBlock(formatBlockInformation(d)));
+    web3.eth.getBlockNumber().then((d) => {
+      dispatch(setNewBlockNumber(Number(d)));
     });
 
     //订阅区块更新
@@ -63,7 +63,7 @@ const ChianHandle = () => {
         <AnimatedCounter
           color="orchid"
           fontSize="20px"
-          value={newBlock ? newBlock.number : 0}
+          value={newBlockNumber}
           decimalPrecision={0}
           includeCommas
         />
