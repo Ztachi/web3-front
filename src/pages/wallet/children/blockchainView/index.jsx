@@ -15,7 +15,7 @@ import { getNewBlockNumber } from '@/store/modules/block';
 const BlockchainView = () => {
   const connector = useWeb3React();
   const [form] = Form.useForm();
-  //最新区块
+  //最新区块号
   const newBlockNumber = useSelector(getNewBlockNumber);
 
   //区块序号

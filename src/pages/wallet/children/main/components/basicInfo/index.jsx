@@ -2,12 +2,14 @@ import { useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Descriptions, Typography, Spin } from 'antd';
 
-import { getCurrentChain } from '@/store/modules/chain';
 import { Web3Context } from '@/libs/wallet/components/Web3Provider';
+import { getCurrentChain } from '@/store/modules/chain';
 
-import { ETHEREUM_MAINNET_CHAIN_ID, ETHEREUM_UNITS } from '@/const';
+import { GET_BALANCE_INTERVAL } from '@/const';
+import getBalanceUnits from './helper';
 
 const { Paragraph } = Typography;
+
 /**
  * @description: 基础信息模块
  * @param {String} account 账号
@@ -19,6 +21,7 @@ const BasicInfo = ({ account, chainId }) => {
 
   //当前链信息
   const currentChainInformation = useSelector(getCurrentChain);
+
   //账户余额
   const [balance, setBalance] = useState('fetching...');
 
@@ -28,9 +31,17 @@ const BasicInfo = ({ account, chainId }) => {
     setBalance('fetching...');
     //获取余额
     web3.eth.getBalance(account).then((b) => {
-      const a = web3.utils.fromWei(b, 'ether');
-      setBalance(a === '0.' ? 0 : a);
+      const newBalance = web3.utils.fromWei(b, 'ether');
+      setBalance(newBalance === '0.' ? 0 : newBalance);
     });
+
+    const interval = setInterval(() => {
+      web3.eth.getBalance(account).then((b) => {
+        const newBalance = web3.utils.fromWei(b, 'ether');
+        setBalance(newBalance === '0.' ? 0 : newBalance);
+      });
+    }, GET_BALANCE_INTERVAL);
+    return () => clearInterval(interval);
   }, [web3, account, setBalance, chainId]);
 
   /**
@@ -70,25 +81,6 @@ const BasicInfo = ({ account, chainId }) => {
       default:
         return getValueTextDom(value);
     }
-  }
-
-  /**
-   * @description: 获取余额货币后缀
-   * @param {Object} chain 当前链信息
-   * @return {String} 后缀单位
-   */
-  function getBalanceUnits(chain) {
-    if (!chain) return;
-    const {
-      nativeCurrency: { symbol },
-      name,
-    } = chain;
-    if (symbol.toLocaleUpperCase() === ETHEREUM_UNITS) {
-      if (chainId !== ETHEREUM_MAINNET_CHAIN_ID) {
-        return `${name}${symbol}`;
-      }
-    }
-    return symbol;
   }
 
   //基础信息数据字段列表
