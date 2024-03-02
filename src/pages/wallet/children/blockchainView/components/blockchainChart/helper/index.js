@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-28 11:23:02
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-29 20:45:11
+ * @LastEditTime: 2024-03-02 17:59:43
  * @Description:对区块链绘制的配置
  */
 import dayjs from 'dayjs';
@@ -35,7 +35,7 @@ const BLOCK_GAP = 50;
 //区块链Y轴中心
 const ORIGINAL_Y = 50;
 //叔叔区块相对主链在Y轴的偏移
-const UNCLE_OFFSET = 20;
+const UNCLE_OFFSET = 50;
 //tooltip展示的字段
 const TOOLTIP_FIELD_LIST = [
   {
@@ -68,10 +68,11 @@ const TOOLTIP_FIELD_LIST = [
  * @description: 获取叔叔区块名称
  * @param {Number} index 叔叔区块索引
  * @param {Number} number 叔叔区块号
+ * @param {Number} whose 谁的叔叔区块
  * @return {String}叔叔区块名称
  */
-function getUncleName(index, number) {
-  return `[${number}] uncle block-${index}`;
+function getUncleName({ index, number, whose }) {
+  return `[${number} ← ${whose}] uncle block-${index}`;
 }
 /**
  * @description: 根据索引获取叔叔区块坐标数值
@@ -84,7 +85,7 @@ function getUncleCoord(index, uncleIndex) {
   const y = uncleIndex % 2 === 0 ? ORIGINAL_Y + UNCLE_OFFSET : ORIGINAL_Y - UNCLE_OFFSET;
   //横坐标为当前区块位置从上往下从左往右依次排列
   //         最左边的不往左再移一位
-  const x = (index - (index < 1 ? 0 : 1)) * BLOCK_GAP;
+  const x = (index - (index < 1 ? 0 : uncleIndex)) * BLOCK_GAP;
   return {
     x,
     y,
@@ -113,7 +114,9 @@ function transformDataList(dataList) {
         //处于叔叔区块集合中的第几个
         uncle.index = i + 1;
         //叔叔区块距离主区块的数值
-        uncle.rise = item.uncleBlockNumber - i - 1;
+        // uncle.rise = item.uncleBlockNumber - i - 1;
+        //谁的叔叔区块
+        uncle.whose = item.number;
       });
       //加入到数组
       flatList.push(...item.uncles);
@@ -137,10 +140,10 @@ function transformDataList(dataList) {
       d,
       {
         value: +d.number,
-        name: getUncleName(d.index, d.number),
+        name: getUncleName(d),
         blockName: `block-${d.number}`,
       },
-      getUncleCoord(i - d.rise, d.index)
+      getUncleCoord(i, d.index)
     );
   });
 }
@@ -161,7 +164,7 @@ function getLinks(dataList) {
       //有叔叔区块还要指向叔叔区块
       if (uncleBlockNumber) {
         uncles.forEach((uncle) => {
-          links.push({ source: name, target: getUncleName(uncle.index, uncle.number) });
+          links.push({ source: name, target: getUncleName(uncle) });
         });
       }
     }

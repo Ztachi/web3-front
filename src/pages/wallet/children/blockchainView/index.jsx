@@ -18,12 +18,12 @@ const BlockchainView = () => {
   //最新区块号
   const newBlockNumber = useSelector(getNewBlockNumber);
 
-  //区块序号
-  const [blockNumber, setBlockNumber] = useState('latest');
+  //区块序号 934 2518
+  const [blockNumber, setBlockNumber] = useState(934);
   //往前展示多少个区块
   const [blockAmount, setBlockAmount] = useState(3);
   //是否保持最新
-  const [isKeepLatest, setIsKeepLatest] = useState(true);
+  const [isKeepLatest, setIsKeepLatest] = useState(false);
 
   const { chainId } = connector;
 
@@ -35,7 +35,7 @@ const BlockchainView = () => {
   );
 
   useEffect(() => {
-    setIsKeepLatest(true);
+    // setIsKeepLatest(true);
   }, [chainId]);
 
   useEffect(() => {
