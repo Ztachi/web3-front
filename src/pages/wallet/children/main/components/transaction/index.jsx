@@ -6,23 +6,23 @@ import { Button, Input, InputNumber, Form, Card, Select, message } from 'antd';
 import { TransactionOutlined } from '@ant-design/icons';
 
 import { getCurrentChain } from '@/store/modules/chain';
-import { getNewBlock } from '@/store/modules/block';
 
 import { GET_GAS_PRICE_INTERVAL } from '@/const';
 import getBalanceUnits from '../basicInfo/helper';
+
 /**
  * @description:
- * @param {*} account
- * @param {*} accounts
- * @return {*}
+ * @param {String} account 当前选中账号
+ * @param {Array[String]} accounts 所有账号列表
+ * @return {ReactNode}
  */
 const Transaction = ({ account, accounts }) => {
   const web3 = useContext(Web3Context);
 
   const [messageApi, contextHolder] = message.useMessage();
 
-  //最新区块信息
-  const newBlock = useSelector(getNewBlock);
+  const [form] = Form.useForm();
+
   //当前链信息
   const currentChainInformation = useSelector(getCurrentChain);
   //是否正在处理
@@ -66,21 +66,35 @@ const Transaction = ({ account, accounts }) => {
     [web3.eth, messageApi, toWei]
   );
 
+  /**
+   * @description: 获取并设置交易费
+   * @param {Object} allValues 交易数据
+   * @return {*}
+   */
+  const getEstimateGas = useCallback(
+    (changedValues, allValues) => {
+      if (allValues?.value && allValues.to) {
+        allValues.value = toWei(allValues.value, 'ether');
+
+        web3.eth.estimateGas(allValues).then((d) => {
+          setTransactionFee(d * gasPrice);
+        });
+      }
+    },
+    [web3.eth, toWei, gasPrice]
+  );
+
+  //gas price改变，重新计算transaction fee
   useEffect(() => {
-    if (newBlock) {
-      web3.eth.getBlockTransactionCount(newBlock.hash).then((d) => {
-        setTransactionFee(toBigInt(Math.floor(newBlock.gasUsed / Number(d))) * gasPrice);
-      });
-    }
-  }, [newBlock, gasPrice, web3, toBigInt]);
+    getEstimateGas(null, form.getFieldsValue());
+  }, [form, getEstimateGas, gasPrice]);
 
   useEffect(() => {
     web3.eth.getGasPrice().then(setGasPrice);
     //周期性刷新gas fee
-    const interval = setInterval(
-      () => web3.eth.getGasPrice().then(setGasPrice),
-      GET_GAS_PRICE_INTERVAL
-    );
+    const interval = setInterval(() => {
+      web3.eth.getGasPrice().then(setGasPrice);
+    }, GET_GAS_PRICE_INTERVAL);
     return () => clearInterval(interval);
   }, [web3, currentChainInformation]);
 
@@ -97,10 +111,12 @@ const Transaction = ({ account, accounts }) => {
     >
       {contextHolder}
       <Form
+        form={form}
         initialValues={{
           from: account,
         }}
         onFinish={finish}
+        onValuesChange={getEstimateGas}
         className="mt-[20px]"
       >
         <Form.Item
@@ -123,10 +139,10 @@ const Transaction = ({ account, accounts }) => {
           name="value"
           extra={
             sendAmount && (
-              <b>
+              <>
                 Total Estimated Amount:
-                {fromWei(toBigInt(toWei(sendAmount, 'ether')) + transactionFee, 'ether')}
-              </b>
+                <b>{fromWei(toBigInt(toWei(sendAmount, 'ether')) + transactionFee, 'ether')}</b>
+              </>
             )
           }
           rules={[
