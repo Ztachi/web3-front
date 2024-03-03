@@ -39,7 +39,7 @@ const Contract1 = ({ contract, onMessage, className }) => {
     async ({ name }) => {
       setIsPending(true);
       try {
-        const d = contract.methods.setName(name).send();
+        const d = await contract.methods.setName(name).send();
         if (d.transactionHash) {
           form.resetFields();
           onMessage('successfully set!');
