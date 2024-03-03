@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 
-import { Button, InputNumber, Form, Switch } from 'antd';
+import { Button, Input, InputNumber, Form, Switch } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import useGetBlockchainDataList from '@/hooks/useGetBlockchainDataList';
@@ -19,11 +19,11 @@ const BlockchainView = () => {
   const newBlockNumber = useSelector(getNewBlockNumber);
 
   //区块序号 934 2518
-  const [blockNumber, setBlockNumber] = useState(934);
+  const [blockNumber, setBlockNumber] = useState('latest');
   //往前展示多少个区块
   const [blockAmount, setBlockAmount] = useState(3);
   //是否保持最新
-  const [isKeepLatest, setIsKeepLatest] = useState(false);
+  const [isKeepLatest, setIsKeepLatest] = useState(true);
 
   const { chainId } = connector;
 
@@ -35,7 +35,7 @@ const BlockchainView = () => {
   );
 
   useEffect(() => {
-    // setIsKeepLatest(true);
+    setIsKeepLatest(true);
   }, [chainId]);
 
   useEffect(() => {
@@ -70,10 +70,10 @@ const BlockchainView = () => {
             }}
           >
             <Form.Item label="Block " name="blockNumber">
-              <InputNumber className="w-[200px]" min={0} changeOnWheel />
+              <Input className="w-[530px]" allowClear />
             </Form.Item>
             <Form.Item label="Block Amount" name="blockAmount">
-              <InputNumber min={3} max={10} changeOnWheel />
+              <InputNumber min={1} max={10} changeOnWheel />
             </Form.Item>
 
             <Form.Item>

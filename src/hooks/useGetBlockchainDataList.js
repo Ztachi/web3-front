@@ -2,10 +2,12 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-25 19:07:44
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-02-29 17:56:32
+ * @LastEditTime: 2024-03-03 13:43:37
  * @Description: 获取制定区块数据，以及它的上N个区块和与之对应的叔叔区块
  */
 import { useContext, useRef, useState, useEffect } from 'react';
+import { message } from 'antd';
+
 import { Web3Context } from '@/libs/wallet/components/Web3Provider';
 
 import { getBlockList } from '@/libs/block';
@@ -56,9 +58,13 @@ const useGetBlockchainDataList = (chainId, initBlockNumber, blockNumber = 3) => 
         setBlockchainDataList(list);
       }
     }
-    getBlockListAsync().finally(() => {
-      setIsFetching(false);
-    });
+    getBlockListAsync()
+      .catch((e) => {
+        message.error(` ${e.message}${e.data.message}`);
+      })
+      .finally(() => {
+        setIsFetching(false);
+      });
     return () => {
       ignore = true;
     };

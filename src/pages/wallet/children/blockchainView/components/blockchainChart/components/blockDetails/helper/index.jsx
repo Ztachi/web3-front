@@ -1,4 +1,4 @@
-import { Typography, List } from 'antd';
+import { Typography, List, Collapse } from 'antd';
 import { formatTimestamp, formatFileSize } from '../../../helper';
 
 const { Paragraph } = Typography;
@@ -40,6 +40,19 @@ function getValueDom(label, value, args) {
     case 'Logs Bloom':
       return <Paragraph copyable={{ text: value }}>{value}</Paragraph>;
     case 'Transactions':
+      return value?.length ? (
+        <Collapse
+          items={[
+            {
+              key: '1',
+              label: 'Transactions List',
+              children: <List dataSource={value} renderItem={(item) => getListItem(label, item)} />,
+            },
+          ]}
+        />
+      ) : (
+        ' - '
+      );
     case 'Uncles':
       return value?.length ? (
         <List dataSource={value} renderItem={(item) => getListItem(label, item)} />

@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-28 11:23:02
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-03-02 17:59:43
+ * @LastEditTime: 2024-03-03 13:45:10
  * @Description:对区块链绘制的配置
  */
 import dayjs from 'dayjs';
@@ -38,6 +38,10 @@ const ORIGINAL_Y = 50;
 const UNCLE_OFFSET = 50;
 //tooltip展示的字段
 const TOOLTIP_FIELD_LIST = [
+  {
+    name: 'Hash',
+    value: 'hash',
+  },
   {
     name: 'Miner',
     value: 'miner',
