@@ -16,7 +16,7 @@ const { Paragraph } = Typography;
  * @param {String} chainId 链号
  * @return {ReactNode}
  */
-const BasicInfo = ({ account, chainId }) => {
+const BasicInfo = ({ account, chainId, className }) => {
   const web3 = useContext(Web3Context);
 
   //当前链信息
@@ -98,6 +98,7 @@ const BasicInfo = ({ account, chainId }) => {
 
   return (
     <Descriptions
+      className={className}
       title="Basic Information"
       bordered
       size="small"

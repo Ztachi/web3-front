@@ -10,13 +10,15 @@ import { getCurrentChain } from '@/store/modules/chain';
 import { GET_GAS_PRICE_INTERVAL } from '@/const';
 import getBalanceUnits from '../basicInfo/helper';
 
+const LABEL_SPAN = 6;
+
 /**
  * @description:
  * @param {String} account 当前选中账号
  * @param {Array[String]} accounts 所有账号列表
  * @return {ReactNode}
  */
-const Transaction = ({ account, accounts }) => {
+const Transaction = ({ account, accounts, className }) => {
   const web3 = useContext(Web3Context);
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -100,6 +102,7 @@ const Transaction = ({ account, accounts }) => {
 
   return (
     <Card
+      className={className}
       title="Transaction"
       extra={
         <>
@@ -112,6 +115,9 @@ const Transaction = ({ account, accounts }) => {
       {contextHolder}
       <Form
         form={form}
+        labelCol={{
+          span: LABEL_SPAN,
+        }}
         initialValues={{
           from: account,
         }}
@@ -161,14 +167,18 @@ const Transaction = ({ account, accounts }) => {
           />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item
+          wrapperCol={{
+            offset: LABEL_SPAN,
+          }}
+        >
           <Button
             type="primary"
             htmlType="submit"
             icon={<TransactionOutlined />}
             loading={isPending}
           >
-            Submit
+            Transfer
           </Button>
         </Form.Item>
       </Form>

@@ -4,14 +4,16 @@ import SecondLevelPage from '@/components/layout/secondLevelPage';
 import BasicInfo from './components/basicInfo';
 import Transaction from './components/transaction';
 
+import style from './index.module.scss';
+
 export const WalletIndex = () => {
   const connector = useWeb3React();
   const { chainId, account, accounts } = connector;
   return (
     <SecondLevelPage noHeader>
-      <div className="p-[10px] bg-white rounded-lg grid gap-[20px]">
-        <BasicInfo {...{ account, chainId }} />
-        <Transaction {...{ account, accounts }} />
+      <div id={style['wallet-main']} className="p-[10px] bg-white rounded-lg">
+        <BasicInfo className={style['basic-info-section']} {...{ account, chainId }} />
+        <Transaction className={style['transaction-section']} {...{ account, accounts }} />
       </div>
     </SecondLevelPage>
   );

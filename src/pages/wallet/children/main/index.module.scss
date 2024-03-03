@@ -1,0 +1,16 @@
+#wallet-main {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas:
+    'baseInfo baseInfo'
+    'transaction .';
+
+  > .basic-info-section {
+    grid-area: baseInfo;
+  }
+
+  > .transaction-section {
+    grid-area: transaction;
+  }
+}
