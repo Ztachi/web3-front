@@ -8,12 +8,18 @@ import SecondLevelPage from '@/components/layout/secondLevelPage';
 import { Empty, message } from 'antd';
 
 import Contract1 from './components/contract1';
+import Contract2 from './components/contract2';
 
 import { CONTRACT_ADDRESS_LIST, ABI_GATHER } from '@/const';
 
+import style from './index.module.scss';
+
 const availableChainIds = CONTRACT_ADDRESS_LIST.map((d) => d.map((dd) => dd.chainId)).flat();
 
-const components = [(props) => <Contract1 {...props} />];
+const components = [
+  (props) => <Contract1 key={props.address} {...props} />,
+  (props) => <Contract2 {...props} />,
+];
 
 const Interact = () => {
   const web3 = useContext(Web3Context);
@@ -39,13 +45,13 @@ const Interact = () => {
   return (
     <SecondLevelPage noHeader>
       <div
-        className={`flex flex-wrap gap-[20px] ${!hasData && 'h-full justify-center items-center'}`}
+        className={`gap-[20px] h-full ${hasData ? style['contract-comment-section'] : 'flex justify-center items-center'}`}
       >
         {hasData ? (
           availableContracts.current.map(({ address, index }) =>
             components[index]({
               key: address,
-              className: 'w-1/2',
+              className: `contract-${index + 1}`,
               address,
               contract: new web3.eth.Contract(
                 ABI_GATHER.find((item) => item.addressList.includes(address)).abi,

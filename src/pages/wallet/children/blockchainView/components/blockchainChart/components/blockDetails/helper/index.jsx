@@ -1,5 +1,5 @@
 import { Typography, List, Collapse } from 'antd';
-import { formatTimestamp, formatFileSize } from '../../../helper';
+import { formatTimestamp, formatFileSize } from '@/helper';
 
 const { Paragraph } = Typography;
 

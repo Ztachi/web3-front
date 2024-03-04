@@ -5,30 +5,7 @@
  * @LastEditTime: 2024-03-03 13:45:10
  * @Description:对区块链绘制的配置
  */
-import dayjs from 'dayjs';
-/**
- * @description: 格式化文件大小
- * @param {Number} bytes 文件比特数
- * @return {String} 格式化之后的样式
- */
-export function formatFileSize(bytes) {
-  bytes = +bytes;
-  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-  while (bytes >= 1024 && units.length > 1) {
-    bytes /= 1024;
-    units.shift();
-  }
-  return Number(bytes.toFixed(2)) + units[0];
-}
-
-/**
- * @description: 格式化时间戳
- * @param {string|Number} timestamp 时间戳
- * @return {String} 格式化之后的时间
- */
-export function formatTimestamp(timestamp) {
-  return dayjs(timestamp * 1000).format('YYYY-MM-DD HH:mm:ss');
-}
+import { formatFileSize, formatTimestamp } from '@/helper';
 
 //区块与区块间的间隙
 const BLOCK_GAP = 50;

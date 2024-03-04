@@ -12,8 +12,8 @@ export const WalletIndex = () => {
   return (
     <SecondLevelPage noHeader>
       <div id={style['wallet-main']} className="p-[10px] bg-white rounded-lg">
-        <BasicInfo className={style['basic-info-section']} {...{ account, chainId }} />
-        <Transaction className={style['transaction-section']} {...{ account, accounts }} />
+        <BasicInfo className="basic-info-section" {...{ account, chainId }} />
+        <Transaction className="transaction-section" {...{ account, accounts }} />
       </div>
     </SecondLevelPage>
   );

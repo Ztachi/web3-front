@@ -18,3 +18,8 @@ div:where(.css-dev-only-do-not-override-1xg9z9n).ant-typography,
 :where(.css-dev-only-do-not-override-1xg9z9n).ant-typography p {
   margin-bottom: 0;
 }
+
+.contract-2 .ant-list-items {
+  max-height: calc(100vh - 590px);
+  overflow: auto;
+}

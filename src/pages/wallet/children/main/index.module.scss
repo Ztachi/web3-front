@@ -6,11 +6,11 @@
     'baseInfo baseInfo'
     'transaction .';
 
-  > .basic-info-section {
+  :global(> .basic-info-section) {
     grid-area: baseInfo;
   }
 
-  > .transaction-section {
+  :global(> .transaction-section) {
     grid-area: transaction;
   }
 }
