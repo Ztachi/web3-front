@@ -8,7 +8,7 @@ import { TransactionOutlined } from '@ant-design/icons';
 import { getCurrentChain } from '@/store/modules/chain';
 
 import { GET_GAS_PRICE_INTERVAL } from '@/const';
-import getBalanceUnits from '../basicInfo/helper';
+import { getBalanceUnits } from '@/helper';
 
 const LABEL_SPAN = 6;
 

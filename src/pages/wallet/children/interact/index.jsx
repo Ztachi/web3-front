@@ -9,6 +9,7 @@ import { Empty, message } from 'antd';
 
 import Contract1 from './components/contract1';
 import Contract2 from './components/contract2';
+import Contract3 from './components/contract3';
 
 import { CONTRACT_ADDRESS_LIST, ABI_GATHER } from '@/const';
 
@@ -17,12 +18,14 @@ import style from './index.module.scss';
 const availableChainIds = CONTRACT_ADDRESS_LIST.map((d) => d.map((dd) => dd.chainId)).flat();
 
 const components = [
-  (props) => <Contract1 key={props.address} {...props} />,
+  (props) => <Contract1 {...props} />,
   (props) => <Contract2 {...props} />,
+  (props) => <Contract3 {...props} />,
 ];
 
 const Interact = () => {
   const web3 = useContext(Web3Context);
+  const { utils } = web3;
   const connector = useWeb3React();
   const { account, chainId } = connector;
 
@@ -53,6 +56,8 @@ const Interact = () => {
               key: address,
               className: `contract-${index + 1}`,
               address,
+              utils,
+              account,
               contract: new web3.eth.Contract(
                 ABI_GATHER.find((item) => item.addressList.includes(address)).abi,
                 address,

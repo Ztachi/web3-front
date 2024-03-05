@@ -6,7 +6,7 @@ import { Web3Context } from '@/libs/wallet/components/Web3Provider';
 import { getCurrentChain } from '@/store/modules/chain';
 
 import { GET_BALANCE_INTERVAL } from '@/const';
-import getBalanceUnits from './helper';
+import { getBalanceUnits, fixedZeroEth } from '@/helper';
 
 const { Paragraph } = Typography;
 
@@ -32,13 +32,13 @@ const BasicInfo = ({ account, chainId, className }) => {
     //获取余额
     web3.eth.getBalance(account).then((b) => {
       const newBalance = web3.utils.fromWei(b, 'ether');
-      setBalance(newBalance === '0.' ? 0 : newBalance);
+      setBalance(fixedZeroEth(newBalance));
     });
 
     const interval = setInterval(() => {
       web3.eth.getBalance(account).then((b) => {
         const newBalance = web3.utils.fromWei(b, 'ether');
-        setBalance(newBalance === '0.' ? 0 : newBalance);
+        setBalance(fixedZeroEth(newBalance));
       });
     }, GET_BALANCE_INTERVAL);
     return () => clearInterval(interval);
