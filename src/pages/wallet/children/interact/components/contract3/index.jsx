@@ -2,47 +2,15 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { getCurrentChain } from '@/store/modules/chain';
 
-import { Button, InputNumber, Card, Descriptions, Typography } from 'antd';
+import { Button, InputNumber, Card, Drawer } from 'antd';
+import { UserOutlined, TeamOutlined, BankTwoTone } from '@ant-design/icons';
 
-import { formatTimestamp, getBalanceUnits, fixedZeroEth } from '@/helper';
+import UserInfo from './components/userInfo';
+import AdministratorList from './components/administratorList';
+import UserList from './components/userList';
 
-function getItems(userInfo, account, units, fromWei) {
-  const lastLog = userInfo.transactionLog.at(-1);
-  const balance = fromWei(userInfo.balance, 'ether');
-  return [
-    {
-      key: 'Account',
-      label: 'Account',
-      children: <Typography.Paragraph copyable={{ text: account }}>{account}</Typography.Paragraph>,
-      span: 3,
-    },
-    {
-      key: 'Balance',
-      label: 'Balance',
-      children: (
-        <>
-          <b className="pr-[5px]">{fixedZeroEth(balance)}</b> {units}
-        </>
-      ),
-      span: 3,
-    },
-    {
-      key: 'The last transaction',
-      label: 'The last transaction',
-      children: lastLog ? (
-        <>
-          [<b>{lastLog.category}</b>] - [<b>{fixedZeroEth(fromWei(lastLog.value, 'ether'))}</b>] - [
-          <b>{formatTimestamp(lastLog.timestamp.toString())}</b>]
-          <Button type="link" size="small">
-            show more
-          </Button>
-        </>
-      ) : (
-        ' - '
-      ),
-    },
-  ];
-}
+import { GET_BALANCE_INTERVAL } from '@/const';
+import { getBalanceUnits } from '@/helper';
 
 /**
  * @description: 智能合约模块
@@ -50,9 +18,10 @@ function getItems(userInfo, account, units, fromWei) {
  * @param {String} address 合约地址
  * @param {String} account 当前账号
  * @param {Function} onMessage 提示语方法
+ * @param {Function} getExplorerDom 用于生成hash展示字段dom
  * @return {ReactNode}
  */
-const Contract3 = ({ contract, account, utils, onMessage, className }) => {
+const Contract3 = ({ contract, account, utils, onMessage, className, getExplorerDom }) => {
   const { toWei, fromWei } = utils;
 
   //单位
@@ -74,45 +43,53 @@ const Contract3 = ({ contract, account, utils, onMessage, className }) => {
   const [isAdministrator, setIsAdministrator] = useState(false);
   //是否是上帝
   const [isGod, setIsGod] = useState(false);
+  //打开什么管理列表 'Role'角色管理 'User'用户管理
+  const [management, setManagement] = useState('');
 
   //获取用户信息
-  const getUserInfo = useCallback(async () => {
+  const getUserInfo = useCallback(() => {
+    //账号改变重置
+    setIsPending(false);
     //基本信息
-    contract.methods
-      .getUser(account)
-      .call()
-      .then((info) => {
+    async function getUser() {
+      try {
+        const info = await contract.methods.getUser(account).call();
         setUserInfo(info);
-      })
-      .catch((error) => {
+      } catch (error) {
         onMessage(error.message, 'error');
-      });
+      }
+    }
+
     //是否是管理员
-    contract.methods
-      .checkIsAdministrator()
-      .call()
-      .then((info) => {
-        setIsAdministrator(info);
-      })
-      .catch((error) => {
+    async function checkIsAdministrator() {
+      try {
+        const administrator = await contract.methods.checkIsAdministrator().call();
+        setIsAdministrator(administrator);
+      } catch (error) {
         onMessage(error.message, 'error');
-      });
+      }
+    }
+
     //是否是上帝
-    contract.methods
-      .checkIsGod()
-      .call()
-      .then((info) => {
-        setIsGod(info);
-      })
-      .catch((error) => {
+    async function checkIsGod() {
+      try {
+        const god = await contract.methods.checkIsGod().call();
+        setIsGod(god);
+      } catch (error) {
         onMessage(error.message, 'error');
-      });
+      }
+    }
+    getUser();
+    checkIsAdministrator();
+    checkIsGod();
   }, [contract, onMessage, account]);
 
   //获取银行总金额
   const getBankStore = useCallback(async () => {
     try {
       const balance = await contract.methods.getBalance().call();
+      console.log('getBankStore', balance);
+
       setStore((balance && fromWei(balance, 'ether')) || 0);
     } catch (error) {
       onMessage(error.message, 'error');
@@ -127,6 +104,9 @@ const Contract3 = ({ contract, account, utils, onMessage, className }) => {
   //进来直接获取一次
   useEffect(() => {
     getBankStore();
+    //周期性刷新
+    const interval = setInterval(getBankStore, GET_BALANCE_INTERVAL);
+    return () => clearInterval(interval);
   }, [getBankStore]);
 
   //存钱
@@ -170,19 +150,28 @@ const Contract3 = ({ contract, account, utils, onMessage, className }) => {
     [contract, onMessage, getBankStore, getUserInfo, toWei]
   );
 
-  const items = userInfo && getItems(userInfo, account, units, fromWei);
-
   return (
     <Card
       className={className}
-      title="Changing the world name"
+      title={
+        <>
+          <BankTwoTone className="mr-[5px]" />
+          Bank
+        </>
+      }
       extra={
         <>
           Vault: <b className="text-[#da70d6]">{store}</b> {units}
         </>
       }
     >
-      <Descriptions title="User Info" items={items} />
+      <UserInfo
+        data={userInfo}
+        account={account}
+        units={units}
+        fromWei={fromWei}
+        getExplorerDom={getExplorerDom}
+      />
       <ul>
         <li className="mt-[10px] flex gap-[10px]">
           <InputNumber
@@ -195,8 +184,18 @@ const Contract3 = ({ contract, account, utils, onMessage, className }) => {
             changeOnWheel
             controls={false}
           />
-          <Button type="primary" onClick={deposit} loading={isPending}>
-            Submit
+          <Button
+            type="primary"
+            onClick={() => {
+              if (depositRef.current.value) {
+                deposit();
+              } else {
+                onMessage('Please input the deposit amount', 'error');
+              }
+            }}
+            loading={isPending}
+          >
+            Deposit
           </Button>
         </li>
         <li className="mt-[10px] flex gap-[10px]">
@@ -206,29 +205,73 @@ const Contract3 = ({ contract, account, utils, onMessage, className }) => {
             addonBefore="Withdraw:"
             suffix={units}
             min={0}
-            placeholder="Input the withdraw amount"
+            placeholder="Please input the withdraw amount"
             changeOnWheel
             controls={false}
           />
-          <Button type="primary" onClick={() => withdraw(false)} loading={isPending}>
-            Submit
+          <Button
+            type="primary"
+            onClick={() => {
+              if (withdrawRef.current.value) {
+                withdraw(false);
+              } else {
+                onMessage('Input the withdraw amount', 'error');
+              }
+            }}
+            loading={isPending}
+          >
+            Withdraw
           </Button>
           <Button type="primary" onClick={() => withdraw(true)} loading={isPending}>
             Withdraw All
           </Button>
         </li>
-        {isGod && (
-          <li className="mt-[10px] flex gap-[10px]">
-            <Button type="primary" disabled>
-              getAdministratorList
-            </Button>
-          </li>
-        )}
         {(isAdministrator || isGod) && (
           <li className="mt-[10px] flex gap-[10px]">
-            <Button type="primary" disabled>
-              getAdministratorList
+            <Button
+              type="primary"
+              icon={<TeamOutlined />}
+              onClick={() => {
+                setManagement('Role');
+              }}
+            >
+              Role Management
             </Button>
+            <Button
+              type="primary"
+              icon={<UserOutlined />}
+              onClick={() => {
+                setManagement('User');
+              }}
+            >
+              User Management
+            </Button>
+            <Drawer
+              title={`${management} Management`}
+              width="40%"
+              onClose={() => setManagement('')}
+              open={!!management}
+              destroyOnClose
+            >
+              {management === 'Role' && (
+                <AdministratorList
+                  contract={contract}
+                  isGod={isGod}
+                  onMessage={onMessage}
+                  getExplorerDom={getExplorerDom}
+                />
+              )}
+              {management === 'User' && (
+                <UserList
+                  contract={contract}
+                  isGod={isGod}
+                  units={units}
+                  fromWei={fromWei}
+                  onMessage={onMessage}
+                  getExplorerDom={getExplorerDom}
+                />
+              )}
+            </Drawer>
           </li>
         )}
       </ul>

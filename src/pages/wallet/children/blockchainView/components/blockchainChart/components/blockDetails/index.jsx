@@ -1,10 +1,15 @@
 import { useRef, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { Drawer, Descriptions, FloatButton } from 'antd';
+
+import { getCurrentChain } from '@/store/modules/chain';
 
 import getItems from './helper';
 
 const BlockDetails = ({ data, setCurrentData }) => {
-  const items = useMemo(() => data && getItems(data), [data]);
+  const chain = useSelector(getCurrentChain);
+  const items = useMemo(() => data && getItems(data, chain), [data, chain]);
+
   const scrollRef = useRef(null);
   return (
     <Drawer

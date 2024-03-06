@@ -1,9 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Button, Input, Form, List } from 'antd';
+import { MessageTwoTone } from '@ant-design/icons';
 
 import { formatTimestamp } from '@/helper';
 
-const LABEL_SPAN = 6;
+const LABEL_SPAN = 4;
 
 /**
  * @description: 智能合约模块
@@ -11,9 +12,10 @@ const LABEL_SPAN = 6;
  * @param {String} address 合约地址
  * @param {String} account 当前账号
  * @param {Function} onMessage 提示语方法
+ * @param {Function} getExplorerDom 用于生成hash展示字段dom
  * @return {ReactNode}
  */
-const Contract2 = ({ contract, onMessage, className }) => {
+const Contract2 = ({ contract, onMessage, className, getExplorerDom }) => {
   const [form] = Form.useForm();
   //正在设置中
   const [isPending, setIsPending] = useState(false);
@@ -66,7 +68,10 @@ const Contract2 = ({ contract, onMessage, className }) => {
       loading={InitLoading}
       header={
         <div className="flex justify-between">
-          <b>Comments</b>
+          <b>
+            <MessageTwoTone className="mr-[5px]" />
+            Comments
+          </b>
           <div>
             Comment Amount: <b>{comments.length}</b>
           </div>
@@ -79,7 +84,7 @@ const Contract2 = ({ contract, onMessage, className }) => {
       renderItem={(item) => (
         <List.Item>
           <List.Item.Meta
-            title={<b>{item.addr}</b>}
+            title={<b>{getExplorerDom({ value: item.addr })}</b>}
             description={formatTimestamp(item.timestamp.toString())}
           />
           {item.comment}

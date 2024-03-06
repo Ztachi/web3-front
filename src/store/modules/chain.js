@@ -54,6 +54,7 @@ export const chainSlice = createSlice({
     //设置当前链
     setCurrentChain: (state, { payload }) => {
       state.chainId = payload;
+
       if (state.chainList.length) {
         state.currentChain = getChainById(state, payload, state.chainList);
       }

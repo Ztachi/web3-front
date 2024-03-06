@@ -1,4 +1,5 @@
-import { Typography, List, Collapse } from 'antd';
+import { Typography, List, Collapse, Button } from 'antd';
+
 import { formatTimestamp, formatFileSize } from '@/helper';
 
 const { Paragraph } = Typography;
@@ -9,11 +10,19 @@ const { Paragraph } = Typography;
  * @param {String} item 当前项的值
  * @return {ReactNode}
  */
-function getListItem(label, item) {
+function getListItem(label, item, explorer, type = 'block') {
   let children = null;
   switch (label) {
     default:
-      children = <Paragraph copyable={{ text: item }}>{item}</Paragraph>;
+      children = explorer ? (
+        <Paragraph copyable={{ text: item }}>
+          <Button className="pl-0" type="link" href={`${explorer}/${type}/${item}`} target="_blank">
+            {item}
+          </Button>
+        </Paragraph>
+      ) : (
+        <Paragraph copyable={{ text: item }}>{item}</Paragraph>
+      );
   }
   return <List.Item>{children}</List.Item>;
 }
@@ -27,7 +36,10 @@ function getListItem(label, item) {
  */
 function getValueDom(label, value, args) {
   console.log(args);
-
+  //是否能跳转浏览
+  const explorer = args.chain?.explorers && args.chain.explorers[0].url;
+  //跳转类型 address账户地址  block区块  tx交易
+  const type = args.type || 'block';
   switch (label) {
     case 'Hash':
     case 'Parent Hash':
@@ -38,7 +50,20 @@ function getValueDom(label, value, args) {
     case 'State Root':
     case 'Transactions Root':
     case 'Logs Bloom':
-      return <Paragraph copyable={{ text: value }}>{value}</Paragraph>;
+      return explorer ? (
+        <Paragraph copyable={{ text: value }}>
+          <Button
+            className="pl-0"
+            type="link"
+            href={`${explorer}/${type}/${value}`}
+            target="_blank"
+          >
+            {value}
+          </Button>
+        </Paragraph>
+      ) : (
+        <Paragraph copyable={{ text: value }}>{value}</Paragraph>
+      );
     case 'Transactions':
       return value?.length ? (
         <Collapse
@@ -46,7 +71,12 @@ function getValueDom(label, value, args) {
             {
               key: '1',
               label: 'Transactions List',
-              children: <List dataSource={value} renderItem={(item) => getListItem(label, item)} />,
+              children: (
+                <List
+                  dataSource={value}
+                  renderItem={(item) => getListItem(label, item, explorer, type)}
+                />
+              ),
             },
           ]}
         />
@@ -55,7 +85,7 @@ function getValueDom(label, value, args) {
       );
     case 'Uncles':
       return value?.length ? (
-        <List dataSource={value} renderItem={(item) => getListItem(label, item)} />
+        <List dataSource={value} renderItem={(item) => getListItem(label, item, explorer, type)} />
       ) : (
         ' - '
       );
@@ -80,7 +110,7 @@ function getDomList(dataList) {
  * @param {Object} data 原数据
  * @return {Object} Descriptions所需的数据
  */
-export default function getItems(data) {
+export default function getItems(data, chain) {
   const {
     hash,
     parentHash,
@@ -110,11 +140,13 @@ export default function getItems(data) {
       value: hash,
       span: 3,
       labelStyle: { width: '200px' },
+      chain,
     },
     {
       label: 'Parent Hash',
       value: parentHash,
       span: 3,
+      chain,
     },
     {
       label: 'Number',
@@ -158,6 +190,8 @@ export default function getItems(data) {
       label: 'Miner',
       value: miner,
       span: 3,
+      chain,
+      type: 'address',
     },
     {
       label: 'Extra Data',
@@ -184,6 +218,8 @@ export default function getItems(data) {
       label: 'Transactions',
       value: transactions,
       span: 3,
+      chain,
+      type: 'tx',
     },
     {
       label: 'Logs Bloom',
@@ -199,6 +235,8 @@ export default function getItems(data) {
       label: 'Uncles',
       value: uncles.map((uncle) => uncle.hash),
       span: 3,
+      chain,
+      type: 'uncle',
     },
   ];
 

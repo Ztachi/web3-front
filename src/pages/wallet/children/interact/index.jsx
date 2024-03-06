@@ -1,11 +1,13 @@
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useCallback } from 'react';
 import { useWeb3React } from '@web3-react/core';
+import { useSelector } from 'react-redux';
 
 import { Web3Context } from '@/libs/wallet/components/Web3Provider';
+import { getCurrentChain } from '@/store/modules/chain';
 
 import SecondLevelPage from '@/components/layout/secondLevelPage';
 
-import { Empty, message } from 'antd';
+import { Empty, message, Typography } from 'antd';
 
 import Contract1 from './components/contract1';
 import Contract2 from './components/contract2';
@@ -15,7 +17,9 @@ import { CONTRACT_ADDRESS_LIST, ABI_GATHER } from '@/const';
 
 import style from './index.module.scss';
 
-const availableChainIds = CONTRACT_ADDRESS_LIST.map((d) => d.map((dd) => dd.chainId)).flat();
+const availableChainIds = [
+  ...new Set(CONTRACT_ADDRESS_LIST.map((d) => d.map((dd) => dd.chainId)).flat()),
+];
 
 const components = [
   (props) => <Contract1 {...props} />,
@@ -24,6 +28,7 @@ const components = [
 ];
 
 const Interact = () => {
+  const chain = useSelector(getCurrentChain);
   const web3 = useContext(Web3Context);
   const { utils } = web3;
   const connector = useWeb3React();
@@ -31,6 +36,24 @@ const Interact = () => {
 
   //能使用的智能合约列表
   const availableContracts = useRef([]);
+
+  //获取浏览器链接
+  const getExplorerDom = useCallback(
+    ({ value, type = 'address' }) => {
+      //是否能跳转浏览
+      const explorer = chain?.explorers && chain.explorers[0].url;
+      return explorer ? (
+        <Typography.Paragraph copyable={{ text: value }}>
+          <a href={`${explorer}/${type}/${value}`} rel="noreferrer" target="_blank">
+            {value}
+          </a>
+        </Typography.Paragraph>
+      ) : (
+        <Typography.Paragraph copyable={{ text: value }}>{value}</Typography.Paragraph>
+      );
+    },
+    [chain]
+  );
 
   availableContracts.current = [];
 
@@ -58,6 +81,7 @@ const Interact = () => {
               address,
               utils,
               account,
+              getExplorerDom,
               contract: new web3.eth.Contract(
                 ABI_GATHER.find((item) => item.addressList.includes(address)).abi,
                 address,

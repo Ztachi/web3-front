@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Button, Input, Form, Card } from 'antd';
+import { SmileTwoTone } from '@ant-design/icons';
 
 const LABEL_SPAN = 6;
 
@@ -57,7 +58,12 @@ const Contract1 = ({ contract, onMessage, className }) => {
   return (
     <Card
       className={className}
-      title="Changing the world name"
+      title={
+        <>
+          <SmileTwoTone className="mr-[5px]" />
+          Changing the world name
+        </>
+      }
       extra={
         <>
           Current: <b>{worldName}</b>

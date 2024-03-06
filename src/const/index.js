@@ -2,7 +2,7 @@
  * @Author: ztachi(legendryztachi@gmail.com)
  * @Date: 2024-02-21 20:09:14
  * @LastEditors: ztachi(legendryztachi@gmail.com)
- * @LastEditTime: 2024-03-05 20:16:03
+ * @LastEditTime: 2024-03-06 16:14:14
  * @Description:
  */
 //以太坊主网id
@@ -21,7 +21,7 @@ export const CONTRACT_ADDRESS_LIST = [
     { address: '0xA6961033B2EF6403a3e80227348b15c0C7b52094', chainId: 5 },
   ],
   [{ address: '0x79d30CfEAb7EF6b4f6e6849CdfAE10212a198E69', chainId: 11155111 }],
-  [{ address: '0xa3A901aCB0689C4f85B691E5Fb34C4FA6162d0da', chainId: 11155111 }],
+  [{ address: '0x47456CD656e8C6dC1640bcce8907F4804e9C7c3C', chainId: 11155111 }],
 ];
 //API集合
 export const ABI_GATHER = [
@@ -137,7 +137,7 @@ export const ABI_GATHER = [
     ],
   },
   {
-    addressList: ['0xa3A901aCB0689C4f85B691E5Fb34C4FA6162d0da'],
+    addressList: ['0x47456CD656e8C6dC1640bcce8907F4804e9C7c3C'],
     abi: [
       {
         inputs: [],
@@ -287,7 +287,7 @@ export const ABI_GATHER = [
         ],
         name: 'destroyingAccount',
         outputs: [],
-        stateMutability: 'nonpayable',
+        stateMutability: 'payable',
         type: 'function',
       },
       {
