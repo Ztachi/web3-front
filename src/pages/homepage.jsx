@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from 'antd';
 import { EditTwoTone, ToolTwoTone, BankTwoTone } from '@ant-design/icons';
 
+import FloatButtonList from '@/components/floatButtonList';
+
 const { Meta } = Card;
 
 //首页导航数据
@@ -41,6 +43,7 @@ const HomePage = () => {
           <Meta title={title} description={description} />
         </Card>
       ))}
+      <FloatButtonList isHomePage />
     </div>
   );
 };

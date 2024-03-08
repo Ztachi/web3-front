@@ -1,12 +1,15 @@
 import { FloatButton } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined, GithubFilled } from '@ant-design/icons';
 
-const FloatButtonList = () => {
+const FloatButtonList = ({ isHomePage }) => {
   const navigate = useNavigate();
   return (
     <FloatButton.Group shape="circle">
-      <FloatButton type="primary" onClick={() => navigate('/')} icon={<HomeOutlined />} />
+      <FloatButton href="https://github.com/Ztachi" target="_blank" icon={<GithubFilled />} />
+      {!isHomePage && (
+        <FloatButton type="primary" onClick={() => navigate('/')} icon={<HomeOutlined />} />
+      )}
     </FloatButton.Group>
   );
 };
