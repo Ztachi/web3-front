@@ -12,6 +12,7 @@ import { Empty, message, Typography } from 'antd';
 import Contract1 from './components/contract1';
 import Contract2 from './components/contract2';
 import Contract3 from './components/contract3';
+import Contract4 from './components/contract4';
 
 import { CONTRACT_ADDRESS_LIST, ABI_GATHER } from '@/const';
 
@@ -25,6 +26,7 @@ const components = [
   (props) => <Contract1 {...props} />,
   (props) => <Contract2 {...props} />,
   (props) => <Contract3 {...props} />,
+  (props) => <Contract4 {...props} />,
 ];
 
 const Interact = () => {

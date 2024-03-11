@@ -20,7 +20,7 @@ const SecondLevelPage = ({ children, noHeader = false, headers, options = {} }) 
   return (
     <>
       {!noHeader && (
-        <div className="absolute top-[10px] left-[20px] right-[20px] h-[40px] flex gap-[20px] items-center">
+        <div className="absolute top-[10px] left-[20px] right-[20px] flex gap-[20px] items-center">
           {headers || (
             <Button
               onClick={() =>

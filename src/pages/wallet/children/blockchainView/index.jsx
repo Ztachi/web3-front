@@ -69,8 +69,17 @@ const BlockchainView = () => {
               setBlockAmount(data.blockAmount);
             }}
           >
-            <Form.Item label="Block " name="blockNumber">
-              <Input className="w-[530px]" allowClear />
+            <Form.Item
+              label="Block"
+              name="blockNumber"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input block hash or number',
+                },
+              ]}
+            >
+              <Input className="w-[530px]" placeholder="block hash or number" allowClear />
             </Form.Item>
             <Form.Item label="Block Amount" name="blockAmount">
               <InputNumber min={1} max={10} changeOnWheel />
