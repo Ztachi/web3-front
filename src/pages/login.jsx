@@ -1,4 +1,4 @@
-import { Card } from 'antd';
+import { Card, Modal, message } from 'antd';
 
 import FloatButtonList from '@/components/floatButtonList';
 
@@ -16,7 +16,24 @@ const Login = () => {
 
   //连接钱包
   async function connect(connector) {
-    await tryActivateConnector(connector);
+    try {
+      await tryActivateConnector(connector);
+    } catch (e) {
+      if (e.name === '_NoMetaMaskError') {
+        Modal.error({
+          content: e.message,
+          okText: 'Install',
+          maskClosable: true,
+          onOk: () => {
+            window.open('https://metamask.io/');
+          },
+        });
+      } else {
+        message.error({
+          content: e.message,
+        });
+      }
+    }
   }
   // function quit(connector) {
   //   tryDeactivateConnector(connector);
