@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Card } from 'antd';
-import { EditTwoTone, ToolTwoTone, BankTwoTone } from '@ant-design/icons';
+import { EditTwoTone, ToolTwoTone, BankTwoTone, BuildTwoTone } from '@ant-design/icons';
 
 import FloatButtonList from '@/components/floatButtonList';
 
@@ -21,6 +21,12 @@ const items = [
     icon: <BankTwoTone className="py-10 text-[40px]" />,
   },
   {
+    title: 'games page',
+    description: 'play some games',
+    url: '/games',
+    icon: <BuildTwoTone className="py-10 text-[40px]" />,
+  },
+  {
     title: 'Go to the demo page',
     description: 'Do something for myself to practice',
     url: '/demo',
@@ -35,7 +41,7 @@ const HomePage = () => {
       {items.map(({ title, description, icon, url }) => (
         <Card
           key={url}
-          className="w-[210px] transition-transform  hover:scale-125 hover:relative hover:z-10"
+          className="w-[210px] h-[230px] transition-transform  hover:scale-125 hover:relative hover:z-10"
           hoverable
           onClick={() => navigate(url)}
           cover={icon}
