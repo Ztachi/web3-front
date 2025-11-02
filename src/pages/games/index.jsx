@@ -8,6 +8,11 @@ const gameList = [
     description: 'a demo of phaser game',
     url: 'https://game.demo.ztachi.com',
   },
+  {
+    title: 'Metal Max Remake',
+    description: 'A RPG game remake of Metal Max',
+    url: 'https://game.mmr.ztachi.com',
+  },
 ];
 
 const Games = () => (
