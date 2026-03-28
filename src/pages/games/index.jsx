@@ -6,7 +6,7 @@ const gameList = [
   {
     title: 'phaser game demo',
     description: 'a demo of phaser game',
-    url: 'https://game.demo.bearstudio.com',
+    url: 'https://game.demo.bearstudio.games',
   },
   {
     title: 'Metal Max Remake',
